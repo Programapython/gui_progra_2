@@ -42,11 +42,13 @@ texto5.place(x = 630, y = 275, width = 50, height = 30)
 
 titulo8 = Label(ventana, text = "FECHA",fg = "cyan", bg = "black")
 titulo8.place(x = 425, y = 460, width = 50, height = 30)
+fecha = Label(ventana, text = time.strftime('%d/%m/%Y'), font = ("Tahoma", 15), fg = "black", bg = "cyan")
+fecha.place(x = 480, y = 460, width = 120, height = 30)
 
 titulo9 = Label(ventana, text = "HORA",fg = "cyan", bg = "black")
-titulo9.place(x = 600, y = 460, width = 50, height = 30)
+titulo9.place(x = 620, y = 460, width = 50, height = 30)
 hora = Label(ventana, text = time.strftime('%H:%M:%S'), font = ("Tahoma", 15), fg = "black", bg = "cyan")
-hora.place(x = 655, y = 460, width = 100, height = 30)
+hora.place(x = 675, y = 460, width = 100, height = 30)
 
 def reloj():
     hora_actual = time.strftime('%H:%M:%S') 
