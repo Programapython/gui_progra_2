@@ -1,16 +1,25 @@
-from tkinter import Tk, Label, Button, Entry 
+from tkinter import Tk, Label, Button, Entry, ttk
 import time
 
 #Ventana
 ventana = Tk()
 ventana.geometry("800x500")
 ventana.title("SISTEMA DE CONTROL VEHICULAR")
-ventana.iconbitmap("Micro.ico")
+ventana.iconbitmap("./images/Micro.ico")
 ventana.config(bg = "gray")
+ventana.resizable(0,0)
+
+#Frame
+style = ttk.Style()
+style.configure("BW.TFrame", background="black")
+
+frame=ttk.Frame(ventana, style="BW.TFrame")
+frame.config(width=360, height=400)
+frame.place(x=40, y=120)
 
 #Titulo
 titulo1 = Label(ventana, text = "SOFTWARE DE RASTREO Y CONTROL",fg = "cyan", bg = "black")
-titulo1.place(x = 275, y = 20, width = 250, height = 40)
+titulo1.place(x = 250, y = 20, width = 250, height = 40)
 
 titulo2 = Label(ventana, text = "DATOS GENERALES:",fg = "cyan", bg = "black")
 titulo2.place(x = 400, y = 80, width = 150, height = 30)
@@ -68,6 +77,41 @@ boton3.place(x = 425, y = 380, width = 200, height = 30)
 
 boton4 = Button(ventana, text = "INICIAR OPERACIONES", bg = "lawn green")
 boton4.place(x = 425, y = 415, width = 150, height = 30)
+
+
+#Tabla
+tbl=ttk.Treeview(frame, columns=('col1','col2'))
+tbl.column("#0", width=100, anchor="center")
+tbl.column("col1", width=100, anchor="center")
+tbl.column("col2", width=100, anchor="center")
+
+tbl.heading("#0", text="ID_VEHICULO", anchor="center")
+tbl.heading("col1", text="RUTA", anchor="center")
+tbl.heading("col2", text="POSICIÓN", anchor="center")
+
+id1=tbl.insert("","end", text="1", values=('A', 'PARADERO 1'))
+id1=tbl.insert("","end", text="2", values=('B', 'PARADERO 2'))
+id1=tbl.insert("","end", text="3", values=('C', 'PARADERO 3'))
+id1=tbl.insert("","end", text="4", values=('B', 'PARADERO 4'))
+id1=tbl.insert("","end", text="5", values=('C', 'PARADERO 5'))
+id1=tbl.insert("","end", text="6", values=('A', 'PARADERO 6'))
+id1=tbl.insert("","end", text="7", values=('B', 'PARADERO 7'))
+id1=tbl.insert("","end", text="8", values=('C', 'PARADERO 8'))
+id1=tbl.insert("","end", text="9", values=('B', 'PARADERO 9'))
+id1=tbl.insert("","end", text="10", values=('C', 'PARADERO 10'))
+id1=tbl.insert("","end", text="1", values=('A', 'PARADERO 1'))
+id1=tbl.insert("","end", text="2", values=('B', 'PARADERO 2'))
+id1=tbl.insert("","end", text="3", values=('C', 'PARADERO 3'))
+id1=tbl.insert("","end", text="4", values=('B', 'PARADERO 4'))
+id1=tbl.insert("","end", text="5", values=('C', 'PARADERO 5'))
+
+tbl.grid(column=1, row=1, padx=10, pady=10) 
+
+#Boton tabla
+boton5 = Button(frame, text = "VER DATOS COMPLETOS", bg = "lawn green")
+boton5.grid(column=1, row=3, padx=5, pady=10)
+
+
 
 reloj()
 ventana.mainloop()
