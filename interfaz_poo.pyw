@@ -89,7 +89,36 @@ class table():
     def grid(self):
         self.tbl.grid(column=1, row=1, padx=10, pady=10)
     
+#CLASE QUE CREA UN MENÚ
+class menubar():
+    def __init__(self, wn):
+        #Declara la ventana
+        self.ventana=wn
+        #Crea un menú
+        self.m=tk.Menu(self.ventana)
+        #se agrega el menú a la ventana que se le pasa como parámetro
+        self.ventana.config(menu=self.m)
+        #Lista de los titulos1
+        self.t1=[]
 
+    def titulos1(self, *nombres):
+        #crea el los submenús del menú, estos se obtienen de la lista nombres
+        #El tearoff indica que no se muestre -- al abrir un submenú
+        for n in nombres:
+            elemento=tk.Menu(self.m, tearoff=0)
+            self.m.add_cascade(label=n, menu=elemento)
+            self.t1.append(elemento)
+
+    def titulos2(self, posicion, nombre):
+        #crea un elemento del submenú, este se obtiene del parámetro normbre
+        #n indica la posición del submenú al cual se le van a añadir los elementos
+        self.t1[posicion-1].add_command(label=nombre)           
+    
+    def separador(self, posicion):
+        self.t1[posicion-1].add_separator()
+
+
+    
 
 #CLASE QUE INICIALIAZ LA VENTANA PRINCIPAL
 class ventana():
@@ -133,10 +162,17 @@ class ventana():
         Tabla.boton('VER DATOS COMPLETOS', 'blue')
         Tabla.grid()
     
+    def menu(self):
+        menu1=menubar(self.wn)
+        menu1.titulos1('Opciones', 'Herramientas', 'configuración', 'Ayuda')
+        menu1.separador(1)
+        menu1.titulos2(1,'modo oscuro')
+        self.wn.geometry("800x530")
+    
     def mainloop(self):
         self.wn.mainloop()
 
-    
+
 # EJECUCUIÓN DE LA INTERFAZ
 vn=ventana()
 vn.botones()
@@ -144,6 +180,7 @@ vn.titulos()
 vn.datos()
 vn.tiempo()
 vn.tabla(100)
+vn.menu()
 vn.mainloop()
         
 
