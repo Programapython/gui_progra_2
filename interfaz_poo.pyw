@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+import funciones.funciones1 as func1
 import time
 
 #CLASE QUE GENERA UN FRAME EN LA VENTANA
@@ -109,15 +110,35 @@ class menubar():
             self.m.add_cascade(label=n, menu=elemento)
             self.t1.append(elemento)
 
-    def titulos2(self, posicion, nombre):
+    def titulos2(self, posicion, nombre, nombre_comando):
         #crea un elemento del submenú, este se obtiene del parámetro normbre
         #n indica la posición del submenú al cual se le van a añadir los elementos
-        self.t1[posicion-1].add_command(label=nombre)           
+
+        #Funciones:
+        def cambiar_color_negro():
+            self.ventana.config(bg='black')
+        def cambiar_color_blanco():
+            self.ventana.config(bg='white')
+        def cambiar_color_gris():
+            self.ventana.config(bg='grey')
+        def salir():
+            self.ventana.quit()
+
+        #Convertir el nombre_comando
+        if nombre_comando == 'cambiar_color_negro':
+            nombre_comando = cambiar_color_negro
+        elif nombre_comando == 'cambiar_color_blanco':
+            nombre_comando = cambiar_color_blanco
+        elif nombre_comando == 'cambiar_color_gris':
+            nombre_comando = cambiar_color_gris
+        elif nombre_comando == 'salir':
+            nombre_comando = salir
+        
+        #Agregar el nuevo submenpu y el comando correspondiente
+        self.t1[posicion-1].add_command(label=nombre, command=nombre_comando)           
     
     def separador(self, posicion):
         self.t1[posicion-1].add_separator()
-
-
     
 
 #CLASE QUE INICIALIAZ LA VENTANA PRINCIPAL
@@ -163,10 +184,14 @@ class ventana():
         Tabla.grid()
     
     def menu(self):
+        
         menu1=menubar(self.wn)
         menu1.titulos1('Opciones', 'Herramientas', 'configuración', 'Ayuda')
+        menu1.titulos2(1,'Modo oscuro', 'cambiar_color_negro')
+        menu1.titulos2(1,'Modo claro', 'cambiar_color_blanco')
+        menu1.titulos2(1,'Modo normal', 'cambiar_color_gris')
         menu1.separador(1)
-        menu1.titulos2(1,'modo oscuro')
+        menu1.titulos2(1,'Salir', 'salir')
         self.wn.geometry("800x530")
     
     def mainloop(self):
