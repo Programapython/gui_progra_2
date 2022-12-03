@@ -55,7 +55,7 @@ class fecha_hora():
             hora_actual = time.strftime('%H:%M:%S') 
             if hora["text"] != hora_actual:
                 hora["text"] = hora_actual
-            wn.after(500, reloj)
+            wn.after(100, reloj)
         
         reloj()
 
@@ -110,20 +110,20 @@ class menubar():
             self.m.add_cascade(label=n, menu=elemento)
             self.t1.append(elemento)
 
-    def titulos2(self, posicion, nombre, nombre_comando=""):
+    def titulos2(self, posicion, nombre, nombre_comando="", atajo=""):
         #crea un elemento del submenú, este se obtiene del parámetro normbre
         #n indica la posición del submenú al cual se le van a añadir los elementos
 
         #Funciones:
-        def cambiar_color_negro():
+        def cambiar_color_negro(event=None):
             self.ventana.config(bg='black')
-        def cambiar_color_blanco():
+        def cambiar_color_blanco(event=None):
             self.ventana.config(bg='white')
-        def cambiar_color_gris():
+        def cambiar_color_gris(event=None):
             self.ventana.config(bg='grey')
-        def salir():
+        def salir(event=None):
             self.ventana.quit()
-        def crear_nueva_ventana():
+        def crear_nueva_ventana(event=None):
             vn=ventana()
             vn.botones()
             vn.titulos()
@@ -131,8 +131,8 @@ class menubar():
             vn.tiempo()
             vn.tabla(100)
             vn.menu()
-            vn.mainloop()        
-        def sin_comando():
+            vn.mainloop()      
+        def sin_comando(event=None):
             print('No existe ningún comando')
 
         #Convertir el nombre_comando de string a función:
@@ -150,7 +150,10 @@ class menubar():
             nombre_comando = sin_comando
         
         #Agregar el nuevo submenpu y el comando correspondiente
-        self.t1[posicion-1].add_command(label=nombre, command=nombre_comando)           
+        self.t1[posicion-1].add_command(label=nombre, accelerator=atajo, command=nombre_comando) 
+        
+        if atajo =='Ctrl+N':
+            self.ventana.bind_all("<Control-n>", nombre_comando)
     
     def separador(self, posicion):
         self.t1[posicion-1].add_separator()
@@ -202,14 +205,16 @@ class ventana():
         
         menu1=menubar(self.wn)
         menu1.titulos1('Opciones', 'Herramientas', 'configuración', 'Ayuda')
-        menu1.titulos2(1,'Nueva ventana', 'crear_nueva_ventana')
+        menu1.titulos2(1,'Nueva ventana', 'crear_nueva_ventana', 'Ctrl+N')
         menu1.titulos2(1,'Modo oscuro', 'cambiar_color_negro')
         menu1.titulos2(1,'Modo claro', 'cambiar_color_blanco')
         menu1.titulos2(1,'Modo normal', 'cambiar_color_gris')
         menu1.separador(1)
         menu1.titulos2(1,'Salir', 'salir')
-
+        menu1.titulos2(4, 'Ayuda')
+        menu1.separador(4)
         menu1.titulos2(4, 'Acerca de ...')
+
         self.wn.geometry("800x530")
     
     def mainloop(self):
