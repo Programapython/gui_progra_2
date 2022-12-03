@@ -110,7 +110,7 @@ class menubar():
             self.m.add_cascade(label=n, menu=elemento)
             self.t1.append(elemento)
 
-    def titulos2(self, posicion, nombre, nombre_comando):
+    def titulos2(self, posicion, nombre, nombre_comando=""):
         #crea un elemento del submenú, este se obtiene del parámetro normbre
         #n indica la posición del submenú al cual se le van a añadir los elementos
 
@@ -123,8 +123,19 @@ class menubar():
             self.ventana.config(bg='grey')
         def salir():
             self.ventana.quit()
+        def crear_nueva_ventana():
+            vn=ventana()
+            vn.botones()
+            vn.titulos()
+            vn.datos()
+            vn.tiempo()
+            vn.tabla(100)
+            vn.menu()
+            vn.mainloop()        
+        def sin_comando():
+            print('No existe ningún comando')
 
-        #Convertir el nombre_comando
+        #Convertir el nombre_comando de string a función:
         if nombre_comando == 'cambiar_color_negro':
             nombre_comando = cambiar_color_negro
         elif nombre_comando == 'cambiar_color_blanco':
@@ -133,6 +144,10 @@ class menubar():
             nombre_comando = cambiar_color_gris
         elif nombre_comando == 'salir':
             nombre_comando = salir
+        elif nombre_comando == 'crear_nueva_ventana':
+            nombre_comando = crear_nueva_ventana
+        else:
+            nombre_comando = sin_comando
         
         #Agregar el nuevo submenpu y el comando correspondiente
         self.t1[posicion-1].add_command(label=nombre, command=nombre_comando)           
@@ -187,11 +202,14 @@ class ventana():
         
         menu1=menubar(self.wn)
         menu1.titulos1('Opciones', 'Herramientas', 'configuración', 'Ayuda')
+        menu1.titulos2(1,'Nueva ventana', 'crear_nueva_ventana')
         menu1.titulos2(1,'Modo oscuro', 'cambiar_color_negro')
         menu1.titulos2(1,'Modo claro', 'cambiar_color_blanco')
         menu1.titulos2(1,'Modo normal', 'cambiar_color_gris')
         menu1.separador(1)
         menu1.titulos2(1,'Salir', 'salir')
+
+        menu1.titulos2(4, 'Acerca de ...')
         self.wn.geometry("800x530")
     
     def mainloop(self):
