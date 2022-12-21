@@ -262,9 +262,9 @@ class ventana_nueva (ventana):
         titulo(self.wn, 65, 90, "CHOFER").medida(100,30)
         cuadro_editor(self.wn, 185, 90, 150, 30)
         titulo(self.wn, 65, 125, "HORA").medida(100,30)
-        cuadro_editor(self.wn, 185, 125, 150, 30, self.parameto1)
-        boton(self.wn, 50, 170, "ENVIAR", "grey", cmd=lambda:print(self.parameto1.get())).medida(100)
-        boton(self.wn, 250, 170, "FINALIZAR", "grey", cmd=lambda:fncg.destruye(self.wn)).medida(100)
+        cuadro_editor(self.wn, 185, 125, 150, 30, self.hora)
+        boton(self.wn, 50, 170, "ENVIAR", "grey", cmd=lambda:print(self.hora.get())).medida(100)
+        boton(self.wn, 250, 170, "FINALIZAR", "grey", cmd=lambda:self.wn.destroy()).medida(100)
 
 # EJECUCUIÓN DE LA INTERFAZ
 vn=ventana()
