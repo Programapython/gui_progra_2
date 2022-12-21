@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import funciones.funciones1 as func1
 import time
-# import cnmysql.conec_sql as conec
+import cnmysql.conec_sql as conec
 
 #CLASE QUE GENERA UN FRAME EN LA VENTANA
 class espacio():
@@ -10,6 +10,14 @@ class espacio():
         self.frame=tk.Frame(wn, bg=color)
         self.frame.config(width=base, height=altura)
         self.frame.place(x=pox, y=poy)
+
+#GENERA UNA SUBVENTANA
+class subventana():
+    def __init__(self, wn, color, pox, poy, base=10, altura=10):
+        self.subv=wn.Toplevel(wn, bg=color)
+        self.frame.config(width=base, height=altura)
+        self.frame.place(x=pox, y=poy)
+
 
 #CLASE QUE GENERA UN BOTÓN
 class boton():
@@ -39,8 +47,8 @@ class dato():
 
 #CLASE QUE GENERA CUADROS DE TEXTO PARA COMPLETAR
 class cuadro_editor():
-    def __init__(self, wn, pox, poy, base=50, altura=30):
-        self.ce=tk.Entry(wn, fg="black", bg="cyan", font = ("Tahoma", 15))
+    def __init__(self, wn, pox, poy, base=50, altura=30, vartex=None):
+        self.ce=tk.Entry(wn, fg="black", bg="cyan", font = ("Tahoma", 15), textvariable=vartex)
         self.ce.place(x=pox, y=poy, width=base, height=altura)
 
 
@@ -82,8 +90,8 @@ class table():
                 self.tbl.column('#0'.format(i), width=100, anchor="center")
                 self.tbl.heading('#0', text=encabezados[0], anchor="center")
             else:
-                self.tbl.column('col{}'.format(i), width=100, anchor="center")
-                self.tbl.heading('col{}'.format(i), text=encabezados[i], anchor="center")
+                self.tbl.column(f'col{i}', width=100, anchor="center")
+                self.tbl.heading(f'col{i}', text=encabezados[i], anchor="center")
     
     def agregar_datos(self, datos):
         self.tbl.insert("","end", text=datos.pop(0), values=datos)
@@ -127,15 +135,15 @@ class menubar():
             self.ventana.config(bg='grey')
         def salir(event=None):
             self.ventana.quit()
-        def crear_nueva_ventana(event=None):
+        def nuevaVentana(event=None):
             vn=ventana()
             vn.botones()
             vn.titulos()
             vn.datos()
             vn.tiempo()
-            vn.tabla(100)
+            vn.tabla()
             vn.menu()
-            vn.mainloop()      
+            vn.mainloop()   
         def sin_comando(event=None):
             print('No existe ningún comando')
 
@@ -148,8 +156,8 @@ class menubar():
             nombre_comando = cambiar_color_gris
         elif nombre_comando == 'salir':
             nombre_comando = salir
-        elif nombre_comando == 'crear_nueva_ventana':
-            nombre_comando = crear_nueva_ventana
+        elif nombre_comando == 'nuevaVentana':
+            nombre_comando = nuevaVentana
         else:
             nombre_comando = sin_comando
         
@@ -164,19 +172,20 @@ class menubar():
     
 
 #CLASE QUE INICIALIAZ LA VENTANA PRINCIPAL
+
 class ventana():
-    def __init__ (self, dimensiones="800x500",tl="SISTEMA DE CONTROL VEHICULAR"):
+    def __init__ (self):
         self.wn=tk.Tk()
-        self.wn.geometry(dimensiones)
-        self.wn.title(tl)
+        self.wn.geometry("800x500")
+        self.wn.title("SISTEMA DE CONTROL VEHICULAR")
         self.wn.iconbitmap("./images/Micro.ico")
         self.wn.config(bg = "gray")
         self.wn.resizable(0,0)
 
     def botones(self):
         def crear_nueva_ventana(event=None):
-            vnt=ventana("400x220", "INICIALIZADOR DE OPERACIONES")
-            vnt.ventana_nueva()
+            vnt=ventana_nueva("400x220", "INICIALIZADOR DE OPERACIONES")
+            vnt.datos()
             vnt.mainloop()
     
         boton(self.wn, 425, 310, "VER UNIDADES DETENIDAS", "dodger blue2").medida(200)
@@ -203,10 +212,10 @@ class ventana():
     def tiempo(self):
         fecha_hora(self.wn)
 
-    def tabla(self,n_vehiculos):
+    def tabla(self):
         Tabla=table(self.wn, 3, ['ID_VEHICULO','RUTA','CHOFER'])
-        for i in range(n_vehiculos):
-            Tabla.agregar_datos([str(i+1),'A'+str(i+1), F'CHOFER{i+1}'])
+        for i in conec.datos_tabla1():
+            Tabla.agregar_datos(i)
         Tabla.boton('VER DATOS COMPLETOS', 'grey')
         Tabla.boton('VER EN EL MAPA', 'grey', 1 , 3)
 
@@ -216,7 +225,7 @@ class ventana():
         
         menu1=menubar(self.wn)
         menu1.titulos1('Opciones', 'Herramientas', 'configuración', 'Ayuda')
-        menu1.titulos2(1,'Nueva ventana', 'crear_nueva_ventana', 'Ctrl+N')
+        menu1.titulos2(1,'Nueva ventana', 'nuevaVentana', 'Ctrl+N')
         menu1.titulos2(1,'Modo oscuro', 'cambiar_color_negro')
         menu1.titulos2(1,'Modo claro', 'cambiar_color_blanco')
         menu1.titulos2(1,'Modo normal', 'cambiar_color_gris')
@@ -227,8 +236,25 @@ class ventana():
         menu1.titulos2(4, 'Acerca de ...')
 
         self.wn.geometry("800x530")
+
+    def mainloop(self):
+        self.wn.mainloop()
+
+#CLASE QUE GENERA UNA NUEVA VENTANA:
+
+class ventana_nueva (ventana):
+    def __init__(self, geo="800x500", tl="SISTEMA DE CONTROL VEHICULAR", icon="./images/Micro.ico"):
+        self.wn=tk.Toplevel()
+        self.wn.geometry(geo)
+        self.wn.title("INICIALIZADOR DE OPERACIONES")
+        self.wn.iconbitmap(icon)
+        self.wn.config(bg = "gray")
+        self.wn.resizable(0,0)
     
-    def ventana_nueva(self):
+    
+    def datos(self):
+        self.parameto1=tk.StringVar()
+
         titulo(self.wn, 65, 20, "VEHÍCULO").medida(100,30)
         cuadro_editor(self.wn, 185, 20, 150, 30)
         titulo(self.wn, 65, 55, "RUTA").medida(100,30)
@@ -236,13 +262,9 @@ class ventana():
         titulo(self.wn, 65, 90, "CHOFER").medida(100,30)
         cuadro_editor(self.wn, 185, 90, 150, 30)
         titulo(self.wn, 65, 125, "HORA").medida(100,30)
-        cuadro_editor(self.wn, 185, 125, 150, 30)
-        boton(self.wn, 50, 170, "ENVIAR", "grey").medida(100)
+        cuadro_editor(self.wn, 185, 125, 150, 30, self.parameto1)
+        boton(self.wn, 50, 170, "ENVIAR", "grey", cmd=lambda:print(self.parameto1.get())).medida(100)
         boton(self.wn, 250, 170, "FINALIZAR", "grey").medida(100)
-
-    def mainloop(self):
-        self.wn.mainloop()
-
 
 # EJECUCUIÓN DE LA INTERFAZ
 vn=ventana()
@@ -250,7 +272,7 @@ vn.botones()
 vn.titulos()
 vn.datos()
 vn.tiempo()
-vn.tabla(100)
+vn.tabla()
 vn.menu()
 vn.mainloop()
         
