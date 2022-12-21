@@ -13,12 +13,13 @@ class espacio():
 
 #CLASE QUE GENERA UN BOTÓN
 class boton():
-    def __init__(self, wn, pox=0, poy=0, texto = 'texto predefinido', color='white'):
-        self.bt= tk.Button(wn, text = texto, bg = color)
+    def __init__(self, wn, pox=0, poy=0, texto = 'texto predefinido', color='white', cmd=None):
+        self.bt= tk.Button(wn, text = texto, bg = color, command=cmd)
         self.bt.place(x = pox, y = poy)
 
     def medida(self, base, altura=30):
         self.bt.place(width=base, height=altura)
+
 
 #CLASE QUE GENERA CUADROS DE TEXTO ESTÁTICO 
 class titulo():
@@ -32,12 +33,15 @@ class titulo():
 #CLASE QUE GENERA CUADROS PARA INGRESAR DATOS
 class dato():
     def __init__(self, wn, pox, poy, informacion, base=50, altura=30):
-        dt=tk.Label(wn, text=informacion, fg="black", bg="cyan", font = ("Tahoma", 15))
-        dt.place(x=pox, y=poy, width=base, height=altura)
+        self.dt=tk.Label(wn, text=informacion, fg="black", bg="cyan", font = ("Tahoma", 15))
+        self.dt.place(x=pox, y=poy, width=base, height=altura)
 
 
 #CLASE QUE GENERA CUADROS DE TEXTO PARA COMPLETAR
-'''Por implementar'''
+class cuadro_editor():
+    def __init__(self, wn, pox, poy, base=50, altura=30):
+        self.ce=tk.Entry(wn, fg="black", bg="cyan", font = ("Tahoma", 15))
+        self.ce.place(x=pox, y=poy, width=base, height=altura)
 
 
 #CLASE QUE GENERA LA HORA Y LA FECHA DE LA APLICACIÓN
@@ -86,7 +90,6 @@ class table():
     
     def boton(self, texto, color, cl= 1, rw= 2 , pox=10, poy=10, comando=None):
         tk.Button(self.sp, text = texto, bg = color).grid(column=cl, row=rw, padx=pox, pady=poy, command=comando)
-
 
     def grid(self):
         self.tbl.grid(column=1, row=1, padx=10, pady=10)
@@ -162,19 +165,24 @@ class menubar():
 
 #CLASE QUE INICIALIAZ LA VENTANA PRINCIPAL
 class ventana():
-    def __init__ (self):
+    def __init__ (self, dimensiones="800x500",tl="SISTEMA DE CONTROL VEHICULAR"):
         self.wn=tk.Tk()
-        self.wn.geometry("800x500")
-        self.wn.title("SISTEMA DE CONTROL VEHICULAR")
+        self.wn.geometry(dimensiones)
+        self.wn.title(tl)
         self.wn.iconbitmap("./images/Micro.ico")
         self.wn.config(bg = "gray")
         self.wn.resizable(0,0)
 
     def botones(self):
+        def crear_nueva_ventana(event=None):
+            vnt=ventana("400x220", "INICIALIZADOR DE OPERACIONES")
+            vnt.ventana_nueva()
+            vnt.mainloop()
+    
         boton(self.wn, 425, 310, "VER UNIDADES DETENIDAS", "dodger blue2").medida(200)
         boton(self.wn, 425, 345, "GENERAR REPORTE", "gold").medida(200)
         boton(self.wn, 425, 380, "EMITIR ALERTA VEHICULAR", "red").medida(200)
-        boton(self.wn, 425, 415, "INICIAR OPERACIONES", "lawn green").medida(200) 
+        boton(self.wn, 425, 415, "INICIAR OPERACIONES", "lawn green",crear_nueva_ventana).medida(200) 
     
     def titulos(self):
         titulo(self.wn, 250, 20, "SOFTWARE DE RASTREO Y CONTROL").medida(250,40)
@@ -220,6 +228,18 @@ class ventana():
 
         self.wn.geometry("800x530")
     
+    def ventana_nueva(self):
+        titulo(self.wn, 65, 20, "VEHÍCULO").medida(100,30)
+        cuadro_editor(self.wn, 185, 20, 150, 30)
+        titulo(self.wn, 65, 55, "RUTA").medida(100,30)
+        cuadro_editor(self.wn, 185, 55, 150, 30)
+        titulo(self.wn, 65, 90, "CHOFER").medida(100,30)
+        cuadro_editor(self.wn, 185, 90, 150, 30)
+        titulo(self.wn, 65, 125, "HORA").medida(100,30)
+        cuadro_editor(self.wn, 185, 125, 150, 30)
+        boton(self.wn, 50, 170, "ENVIAR", "grey").medida(100)
+        boton(self.wn, 250, 170, "FINALIZAR", "grey").medida(100)
+
     def mainloop(self):
         self.wn.mainloop()
 
