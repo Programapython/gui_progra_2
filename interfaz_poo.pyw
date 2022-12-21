@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import funciones.funciones1 as func1
 import time
+import cnmysql.conec_sql as conec
 
 #CLASE QUE GENERA UN FRAME EN LA VENTANA
 class espacio():
