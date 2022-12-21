@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import funciones.funciones1 as func1
 import time
-import cnmysql.conec_sql as conec
+# import cnmysql.conec_sql as conec
 
 #CLASE QUE GENERA UN FRAME EN LA VENTANA
 class espacio():
@@ -84,8 +84,8 @@ class table():
     def agregar_datos(self, datos):
         self.tbl.insert("","end", text=datos.pop(0), values=datos)
     
-    def boton(self, texto, color):
-        tk.Button(self.sp, text = texto, bg = color).grid(column=1, row=2, padx=10, pady=30)
+    def boton(self, texto, color, cl= 1, rw= 2 , pox=10, poy=10, comando=None):
+        tk.Button(self.sp, text = texto, bg = color).grid(column=cl, row=rw, padx=pox, pady=poy, command=comando)
 
 
     def grid(self):
@@ -196,10 +196,12 @@ class ventana():
         fecha_hora(self.wn)
 
     def tabla(self,n_vehiculos):
-        Tabla=table(self.wn, 3, ['ID_VEHICULO','RUTA','POSICIÓN'])
+        Tabla=table(self.wn, 3, ['ID_VEHICULO','RUTA','CHOFER'])
         for i in range(n_vehiculos):
-            Tabla.agregar_datos([str(i+1),'A'+str(i+1), 'PARADERO '+str(i+1)])
-        Tabla.boton('VER DATOS COMPLETOS', 'blue')
+            Tabla.agregar_datos([str(i+1),'A'+str(i+1), F'CHOFER{i+1}'])
+        Tabla.boton('VER DATOS COMPLETOS', 'grey')
+        Tabla.boton('VER EN EL MAPA', 'grey', 1 , 3)
+
         Tabla.grid()
     
     def menu(self):

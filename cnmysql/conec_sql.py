@@ -5,17 +5,29 @@ from mysql.connector import Error
 
 clave='MgB1Q9529nub9HEjggLr'
 usuario='urd2jbllb60jvsko'
-try:
-    conexion=mysql.connector.connect(user=f'{usuario}', password=f"{clave}", 
-                                    host='bwrgomsofdlj6yeoge45-mysql.services.clever-cloud.com',
-                                    database='bwrgomsofdlj6yeoge45',
-                                    port='3306')
 
-    cursor=conexion.cursor()
-    cursor.execute('SELECT Nombre, id_Vehículo FROM Chofer c INNER JOIN Vehículo v ON c.id=v.Chofer_id;')
-    for fila in cursor:
-        print(fila)
-    conexion.close()
+class conexion():
+    def __init__(self, comando):
+        try:
+            self.conexion=mysql.connector.connect(user=f'{usuario}', password=f"{clave}", 
+                                            host='bwrgomsofdlj6yeoge45-mysql.services.clever-cloud.com',
+                                            database='bwrgomsofdlj6yeoge45',
+                                            port='3306')
+        except Error as error:
+            return print(error)
+    
+    def solicitud(self,)
+            cursor=self.conexion.cursor()
+            cursor.execute(comando)
+            return cursor
+        
 
-except Error as error:
-    print(f"Ha ocurrido un error:{error}")
+    def close(self):
+        self.conexion.close()
+
+
+def dataPrincipal():
+    conexion("SELECT * FROM directivos").close()
+
+
+dataPrincipal()
