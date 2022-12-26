@@ -188,24 +188,36 @@ class ventana():
         self.tabla()
         self.menu()
         self.mainloop()
-    
-    def crear_nueva_ventana(self):
+
+
+    def ventana_agregar_datos(self):
         def agrega_dato():
-            linea=self.vnt.ingresa_datos()
+            linea=self.vnt1.retorna_datos()
             self.Tabla.agregar_datos(linea[0:3])
         
-        self.vnt=ventana_nueva("400x220", "INICIALIZADOR DE OPERACIONES")
-        self.vnt.datos()
-        self.vnt.botones(agrega_dato, lambda:self.vnt.destroy())
-        self.vnt.mainloop()
-        
+        self.vnt1=ventana_nueva("400x220", "INICIALIZADOR DE OPERACIONES")
+        self.vnt1.datos1()
+        self.vnt1.botones1(agrega_dato, lambda:self.vnt1.destroy())
+        self.vnt1.mainloop()
+    
+    def ventana_verificar_acceso(self):
+        def comprobar_contraseña():
+            if self.vnt2.retorna_contra() == '1234':
+                self.vnt2.destroy()
+                self.ventana_agregar_datos()
+            else:
+                pass
 
+        self.vnt2=ventana_nueva("400x220", "COMPROBAR SU IDENTIDAD")
+        self.vnt2.datos2()
+        self.vnt2.botones2(comprobar_contraseña, None)
+        self.vnt2.mainloop()
 
     def botones(self):
         boton(self.wn, 425, 310, "VER UNIDADES DETENIDAS", "dodger blue2").medida(200)
         boton(self.wn, 425, 345, "GENERAR REPORTE", "gold").medida(200)
         boton(self.wn, 425, 380, "EMITIR ALERTA VEHICULAR", "red").medida(200)
-        boton(self.wn, 425, 415, "INICIAR OPERACIONES", "lawn green",self.crear_nueva_ventana).medida(200) 
+        boton(self.wn, 425, 415, "INICIAR OPERACIONES", "lawn green",self.ventana_verificar_acceso).medida(200) 
     
     def titulos(self):
         titulo(self.wn, 250, 20, "SOFTWARE DE RASTREO Y CONTROL").medida(250,40)
@@ -273,8 +285,9 @@ class ventana_nueva (ventana):
         self.ruta=tk.StringVar()
         self.chofer=tk.StringVar()
         self.hora=tk.StringVar()
+        self.contra=tk.StringVar()
     
-    def datos(self):
+    def datos1(self):
         titulo(self.wn, 65, 20, "VEHÍCULO").medida(100,30)
         cuadro_editor(self.wn, 185, 20, 150, 30, self.id_veh)
         titulo(self.wn, 65, 55, "RUTA").medida(100,30)
@@ -284,18 +297,28 @@ class ventana_nueva (ventana):
         titulo(self.wn, 65, 125, "HORA").medida(100,30)
         cuadro_editor(self.wn, 185, 125, 150, 30, self.hora)
     
-    def ingresa_datos(self):
+    def botones1(self, *comando):
+        boton(self.wn, 50, 170, "ENVIAR", "grey", cmd=comando[0]).medida(100)
+        boton(self.wn, 250, 170, "FINALIZAR", "grey", cmd=comando[1]).medida(100)
+
+    def retorna_datos(self):
         linea = [self.id_veh.get(), self.ruta.get(), self.chofer.get(), self.hora.get()]
         self.id_veh.set("")
         self.ruta.set("")
         self.chofer.set("")
         self.hora.set("")
         return linea
-        
     
-    def botones(self, com1, com2):
-        boton(self.wn, 50, 170, "ENVIAR", "grey", cmd=com1).medida(100)
-        boton(self.wn, 250, 170, "FINALIZAR", "grey", cmd=com2).medida(100)
+    def datos2(self):
+        titulo(self.wn, 50, 20, "Ingrese una contraseña válida:").medida(300,30)
+        cuadro_editor(self.wn, 50, 50, 300, 30, self.contra)
+
+    def botones2(self, *comando):
+        boton(self.wn, 50, 120, "INGRESAR", "grey", cmd=comando[0]).medida(300)
+        boton(self.wn, 50, 170, "CAMBIAR CONTRASEÑA", "grey", cmd=comando[1]).medida(300)
+    
+    def retorna_contra(self):
+        return self.contra.get()
 
     def destroy(self):
         self.wn.destroy()
