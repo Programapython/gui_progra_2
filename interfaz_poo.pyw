@@ -198,53 +198,9 @@ class ventana_base ():
     def return_tk(self):
         return self.wn
 
-    #     self.id_veh=tk.StringVar()
-    #     self.ruta=tk.StringVar()
-    #     self.chofer=tk.StringVar()
-    #     self.hora=tk.StringVar()
-    #     self.contra=tk.StringVar()
-
-    # def datos1(self):
-    #     titulo(self.wn, 65, 20, "VEHÍCULO").medida(100,30)
-    #     cuadro_editor(self.wn, 185, 20, 150, 30, self.id_veh)
-    #     titulo(self.wn, 65, 55, "RUTA").medida(100,30)
-    #     cuadro_editor(self.wn, 185, 55, 150, 30, self.ruta)
-    #     titulo(self.wn, 65, 90, "CHOFER").medida(100,30)
-    #     cuadro_editor(self.wn, 185, 90, 150, 30, self.chofer)
-    #     titulo(self.wn, 65, 125, "HORA").medida(100,30)
-    #     cuadro_editor(self.wn, 185, 125, 150, 30, self.hora)
-    
-    # def botones1(self, *comando):
-    #     boton(self.wn, 50, 170, "ENVIAR", "grey", cmd=comando[0]).medida(100)
-    #     boton(self.wn, 250, 170, "FINALIZAR", "grey", cmd=comando[1]).medida(100)
-    
-    # def sin_contraseña(self):
-    #     mb.showinfo(message="Ingrese un valor válido", title="SIN CONTRASEÑA")
-    
-    # def contraseña_incorrecta(self):
-    #     mb.showerror(message="Ingrese un valor correcto", title="CONTRASEÑA INCORRECTA")
-
-    # def retorna_datos(self):
-    #     linea = [self.id_veh.get(), self.ruta.get(), self.chofer.get(), self.hora.get()]
-    #     self.id_veh.set("")
-    #     self.ruta.set("")
-    #     self.chofer.set("")
-    #     self.hora.set("")
-    #     return linea
-    
-    # def datos2(self):
-    #     titulo(self.wn, 50, 20, "Ingrese una contraseña válida:").medida(300,30)
-    #     cuadro_editor(self.wn, 50, 50, 300, 30, self.contra)
-
-    # def botones2(self, *comando):
-    #     boton(self.wn, 50, 120, "INGRESAR", "grey", cmd=comando[0]).medida(300)
-    #     boton(self.wn, 50, 170, "CAMBIAR CONTRASEÑA", "grey", cmd=comando[1]).medida(300)
-    
-    # def retorna_contra(self):
-    #     return self.contra.get()
-
+#CLASE QUE CREA UNA VENTANA PARA AGREFAR DATOS
 class ventana_agregar_datos(ventana_base):
-    def __init__(self, id_veh="", ruta="", chofer="", hora="", datos_anteriores=[], command_tabla=None):
+    def __init__(self, id_veh="", ruta="", chofer="", hora="", datos_anteriores=[], tablaexterna=None):
         self.vnt1=ventana_base("900x350", "INICIALIZADOR DE OPERACIONES")
         self.wn=self.vnt1.return_tk()
         self.id_veh=tk.StringVar(value=id_veh)
@@ -252,7 +208,7 @@ class ventana_agregar_datos(ventana_base):
         self.chofer=tk.StringVar(value=chofer)
         self.hora=tk.StringVar(value=hora)
         self.lista_datos=[]
-        self.command_tabla=command_tabla
+        self.tablaexterna=tablaexterna
 
         # CUERPO
         titulo(self.wn, 50, 20, "DATOS DE INGRESO").medida(300,30)
@@ -268,7 +224,7 @@ class ventana_agregar_datos(ventana_base):
 
         # BOTONES
         boton(self.wn, 50, 230, "ENVIAR", "grey", self.agrega_vehiculo).medida(300)
-        boton(self.wn, 50, 270, "FINALIZAR", "grey", command_tabla).medida(300)
+        boton(self.wn, 50, 270, "FINALIZAR", "grey", self.verificar_acceso).medida(300)
 
         #TABLA
         titulo(self.wn, 450, 20, "VISTA PREVIA").medida(400,30)
@@ -276,7 +232,6 @@ class ventana_agregar_datos(ventana_base):
         if len(datos_anteriores) != 0:
             for valor in datos_anteriores:
                 self.lista_datos.append(valor)
-                self.Tabla.agregar_datos(valor)
         self.Tabla.posicionar(pox=450, poy=60)
         boton(self.wn, 450, 305, "EDITAR VISTA PREVIA", "grey", self.ventana_editar_datos).medida(400)
 
@@ -285,7 +240,7 @@ class ventana_agregar_datos(ventana_base):
         linea = [self.id_veh.get(), self.ruta.get(), self.chofer.get(), self.hora.get()]
         lista_vacios = []
         for i in range(len(linea)):
-            if linea[i] == '':
+            if linea[i] == "":
                 lista_vacios.append(i)
     
         if len(lista_vacios) == 0:
@@ -299,7 +254,7 @@ class ventana_agregar_datos(ventana_base):
         else:
             mb.showerror(message="Complete todos los campos", title="DATOS INCOMPLETOS")
             self.wn.destroy()
-            ventana_agregar_datos(linea[0], linea[1], linea[2], linea[3], self.lista_datos, self.command_tabla).return_tk()
+            ventana_agregar_datos(linea[0], linea[1], linea[2], linea[3], self.lista_datos, tablaexterna=self.tablaexterna)
 
     def retorna_datos(self):
         return self.lista_datos
@@ -309,9 +264,9 @@ class ventana_agregar_datos(ventana_base):
         def comprobar_contraseña():
             if self.vnt2.retorna_contra() == '1234':
                 self.vnt2.return_tk().destroy()
-                self.vnt1.return_tk().destroy()
-                for i in self.data_ingresada:
-                    self.Tabla.agregar_datos(i)
+                for dato in self.lista_datos:
+                    self.tablaexterna.agregar_datos(dato)
+                self.wn.destroy()
             elif self.vnt2.retorna_contra() == '':
                 mb.showinfo(message="Ingrese un valor válido", title="SIN CONTRASEÑA")
                 self.vnt2.return_tk().destroy()
@@ -326,28 +281,9 @@ class ventana_agregar_datos(ventana_base):
 
 
     def ventana_editar_datos(self):
-        self.wn.geometry("900x800")
+        pass
 
-
-        # self.contra=tk.StringVar()
-        
-        # # TABLA
-        # self.Tabla=table(self.wn, 4, ['ID_VEHICULO','RUTA','CHOFER','HORA'], False)
-
-        # self.Tabla.posicionar(pox=50, poy=20)
-
-        # # BOTONES
-        # boton(self.wn, 100, 255, "ENVIAR", "grey").medida(100)
-        # boton(self.wn, 300, 255, "FINALIZAR", "grey").medida(100)
-        # self.wn.mainloop()
-
-    
-  
-
-
-        
-
-
+#CLASE QUE CREA UNA VENTANA PARA VERIFICAR ACCESO MEDIANTE UNA CONTRASEÑA
 class ventana_verificar_acceso(ventana_base):
     def __init__(self, command_verificacion=None):
         self.vnt2=ventana_base("400x220", "COMPROBAR SU IDENTIDAD")
@@ -363,7 +299,6 @@ class ventana_verificar_acceso(ventana_base):
         #BOTONES
         boton(self.wn, 50, 120, "INGRESAR", "grey", self.command_verificacion).medida(300)
         boton(self.wn, 50, 170, "CAMBIAR CONTRASEÑA", "grey").medida(300)
-        
 
     
     def comprobar_contraseña(self):
@@ -381,6 +316,7 @@ class ventana_verificar_acceso(ventana_base):
     
     def retorna_contra(self):
         return self.contra.get()
+    
 
 
 #CLASE QUE INICIALIAZ LA VENTANA PRINCIPAL
@@ -403,10 +339,7 @@ class ventana(ventana_base):
         
 
     def pestaña_agregar_datos(self):
-
-        self.vnt1=ventana_agregar_datos(command_tabla=self.verificar_acceso)
-        self.data_ingresada=self.vnt1.retorna_datos()
-        self.vnt1.mainloop()
+        ventana_agregar_datos(tablaexterna=self.Tabla).mainloop()
 
     def botones(self):
         boton(self.wn, 425, 310, "VER UNIDADES DETENIDAS", "dodger blue2").medida(200)

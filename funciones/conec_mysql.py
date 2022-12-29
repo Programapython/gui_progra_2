@@ -42,11 +42,17 @@ class conexion_msql():
         else:
             return self.data
 
+# FUNCIONES PARA LEER DATOS
 
 def datos_tabla_principal():
     conexion_msql(datos_tabla)
 
 def verificar_contraseña():
+    pass
+
+# FUNCIONES PARA AGREGAR DATOS
+
+def agregar_datos_tabla_principal():
     pass
 
 
