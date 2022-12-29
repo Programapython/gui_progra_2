@@ -262,12 +262,12 @@ class ventana_agregar_datos(ventana_base):
     def verificar_acceso(self):
         
         def comprobar_contraseña():
-            if self.vnt2.retorna_contra() == '1234':
+            if conec.verificar_contraseña(self.vnt2.retorna_contra())==[[1]]:
                 self.vnt2.return_tk().destroy()
                 for dato in self.lista_datos:
                     self.tablaexterna.agregar_datos(dato)
                 self.wn.destroy()
-            elif self.vnt2.retorna_contra() == '':
+            elif self.vnt2.retorna_contra()=="":
                 mb.showinfo(message="Ingrese un valor válido", title="SIN CONTRASEÑA")
                 self.vnt2.return_tk().destroy()
                 self.verificar_acceso()
@@ -299,20 +299,6 @@ class ventana_verificar_acceso(ventana_base):
         #BOTONES
         boton(self.wn, 50, 120, "INGRESAR", "grey", self.command_verificacion).medida(300)
         boton(self.wn, 50, 170, "CAMBIAR CONTRASEÑA", "grey").medida(300)
-
-    
-    def comprobar_contraseña(self):
-        if self.contra.get() == '1234':
-            self.wn.destroy()
-
-        elif self.contra.get() == '':
-            mb.showinfo(message="Ingrese un valor válido", title="SIN CONTRASEÑA")
-            self.wn.destroy()
-            ventana_verificar_acceso()
-        else:
-            mb.showerror(message="Ingrese un valor correcto", title="CONTRASEÑA INCORRECTA")
-            self.wn.destroy()
-            ventana_verificar_acceso()
     
     def retorna_contra(self):
         return self.contra.get()

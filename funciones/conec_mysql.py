@@ -5,10 +5,11 @@ from mysql.connector import Error
 
 #PEDIDOS:
 
-datos_tabla = '''SELECT id_Vehículo, ruta, Nombre FROM Vehículo v LEFT JOIN 
-Chofer c ON c.id=v.id_Vehículo LEFT JOIN Trayectoria_vehiculo t ON c.id=t.Vehículo_Chofer_id'''
+datos_tabla = "SELECT * FROM Vehículo"
 
+buscar_contraseña =lambda i: f'''CALL buscar_contraseña('{i}')'''
 
+#CLASE QUE GENERA UNA CONEXIÓN CON MYSQL
 class conexion_msql():
     def __init__(self, pedido=""):
         self.data=[]
@@ -24,10 +25,8 @@ class conexion_msql():
 
             self.conexion.close()
 
-            self.verificar_data()
-
         except Error as error:
-            return error
+            print(error)
     
     def solicitud(self, comando):
         cursor=self.conexion.cursor()
@@ -45,15 +44,14 @@ class conexion_msql():
 # FUNCIONES PARA LEER DATOS
 
 def datos_tabla_principal():
-    conexion_msql(datos_tabla)
+    return conexion_msql(datos_tabla).verificar_data()
 
-def verificar_contraseña():
-    pass
+def verificar_contraseña(contraseña):
+    return conexion_msql(buscar_contraseña(contraseña)).verificar_data()
 
 # FUNCIONES PARA AGREGAR DATOS
 
 def agregar_datos_tabla_principal():
     pass
-
 
 
