@@ -3,9 +3,15 @@ from mysql.connector import Error
 #Comando para descargar el modeulo de conexión con mysql
 #pip install mysql-connector-python
 
+#PEDIDOS:
 
-class conexion():
-    def __init__(self):
+datos_tabla = '''SELECT id_Vehículo, ruta, Nombre FROM Vehículo v LEFT JOIN 
+Chofer c ON c.id=v.id_Vehículo LEFT JOIN Trayectoria_vehiculo t ON c.id=t.Vehículo_Chofer_id'''
+
+
+class conexion_msql():
+    def __init__(self, pedido=""):
+        self.data=[]
         try:
             clave='MgB1Q9529nub9HEjggLr'
             usuario='urd2jbllb60jvsko'
@@ -13,28 +19,35 @@ class conexion():
                                             host='bwrgomsofdlj6yeoge45-mysql.services.clever-cloud.com',
                                             database='bwrgomsofdlj6yeoge45',
                                             port='3306')
+
+            self.solicitud(pedido)
+
+            self.conexion.close()
+
+            self.verificar_data()
+
         except Error as error:
-            print(error)
+            return error
     
     def solicitud(self, comando):
-        data=[]
         cursor=self.conexion.cursor()
         cursor.execute(comando)
         
         for i in cursor:
-            data.append(list(i))
-        
-        return data
+            self.data.append(list(i))
+    
+    def verificar_data(self):
+        if self.data == []:
+            return "No se ha encontrado data, vuelve a realizar la petición"
+        else:
+            return self.data
 
-    def close(self):
-        self.conexion.close()
 
+def datos_tabla_principal():
+    conexion_msql(datos_tabla)
 
-def datos_tabla1():
-    cnx=conexion()
-    data=cnx.solicitud("SELECT id_Vehículo, ruta, Nombre FROM Vehículo v LEFT JOIN Chofer c ON c.id=v.id_Vehículo LEFT JOIN Trayectoria_vehiculo t ON c.id=t.Vehículo_Chofer_id")
-    cnx.close()
-    return data
+def verificar_contraseña():
+    pass
 
 
 
