@@ -1,9 +1,11 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox as mb
-import funciones.funcionesGenerales as fncg
+import funciones.funcionesGenerales as fng
 import time
 import funciones.conec_mysql as conec
+
+
 
 #CLASE QUE GENERA UN FRAME EN LA VENTANA
 class espacio():
@@ -22,12 +24,19 @@ class subventana():
 
 #CLASE QUE GENERA UN BOTÓN
 class boton():
-    def __init__(self, wn, pox=0, poy=0, texto = 'texto predefinido', color='white', cmd=None):
+    def __init__(self, wn, texto = 'texto predefinido', color='white', cmd=None, metodo='place'):
+        self.metodo=metodo
         self.bt= tk.Button(wn, text = texto, bg = color, command=cmd)
-        self.bt.place(x = pox, y = poy)
 
-    def medida(self, base, altura=30):
-        self.bt.place(width=base, height=altura)
+
+    def medida_posicion(self, base=10, pox=0, poy=0):
+        if self.metodo == "place":
+            self.bt.place(width=base, height=30, x=pox, y=poy)
+
+    def grid(self,pox, poy, ):
+        if self.metodo == "grid":
+            self.bt.grid(column=pox, row=poy, padx=10, pady=10)
+        
 
 
 #CLASE QUE GENERA CUADROS DE TEXTO ESTÁTICO 
@@ -105,9 +114,6 @@ class table():
     
     def agregar_datos(self, datos):
         self.tbl.insert("","end", text=datos[0], values=datos[1:len(datos)])
-    
-    def boton(self, texto, color, cl= 1, rw= 2 , pox=10, poy=10, comando=None):
-        tk.Button(self.sp, text = texto, bg = color).grid(column=cl, row=rw, padx=pox, pady=poy, command=comando)
 
     def posicionar(self, columna=1, fila=1, pox=0, poy=0):
         if self.opcion == True:
@@ -117,6 +123,9 @@ class table():
     
     def seleccionar(self):
         pass
+
+    def tkframe(self):
+        return self.sp
 
     
 #CLASE QUE CREA UN MENÚ
@@ -198,7 +207,7 @@ class ventana_base ():
     def return_tk(self):
         return self.wn
 
-#CLASE QUE CREA UNA VENTANA PARA AGREFAR DATOS
+#CLASE QUE CREA UNA VENTANA PARA AGREGAR DATOS
 class ventana_agregar_datos(ventana_base):
     def __init__(self, id_veh="", ruta="", chofer="", hora="", datos_anteriores=[], tablaexterna=None):
         self.vnt1=ventana_base("900x350", "INICIALIZADOR DE OPERACIONES")
@@ -223,8 +232,8 @@ class ventana_agregar_datos(ventana_base):
         cuadro_editor(self.wn, 200, 180, 150, 30, self.hora)
 
         # BOTONES
-        boton(self.wn, 50, 230, "ENVIAR", "grey", self.agrega_vehiculo).medida(300)
-        boton(self.wn, 50, 270, "FINALIZAR", "grey", self.verificar_acceso).medida(300)
+        boton(self.wn, "ENVIAR", "grey", self.agrega_vehiculo).medida_posicion(300, 50, 230)
+        boton(self.wn, "FINALIZAR", "grey", self.verificar_acceso).medida_posicion(300, 50, 270)
 
         #TABLA
         titulo(self.wn, 450, 20, "VISTA PREVIA").medida(400,30)
@@ -233,7 +242,7 @@ class ventana_agregar_datos(ventana_base):
             for valor in datos_anteriores:
                 self.lista_datos.append(valor)
         self.Tabla.posicionar(pox=450, poy=60)
-        boton(self.wn, 450, 305, "EDITAR VISTA PREVIA", "grey", self.ventana_editar_datos).medida(400)
+        boton(self.wn, "EDITAR VISTA PREVIA", "grey", self.ventana_editar_datos).medida_posicion(400, 450, 305)
 
 
     def agrega_vehiculo(self):
@@ -264,6 +273,7 @@ class ventana_agregar_datos(ventana_base):
         def comprobar_contraseña():
             if conec.verificar_contraseña(self.vnt2.retorna_contra())==[[1]]:
                 self.vnt2.return_tk().destroy()
+                fng.doc().operacion("E",self.lista_datos)
                 for dato in self.lista_datos:
                     self.tablaexterna.agregar_datos(dato)
                 self.wn.destroy()
@@ -297,8 +307,8 @@ class ventana_verificar_acceso(ventana_base):
         cuadro_editor(self.wn, 50, 50, 300, 30, self.contra, contraseña=True)
 
         #BOTONES
-        boton(self.wn, 50, 120, "INGRESAR", "grey", self.command_verificacion).medida(300)
-        boton(self.wn, 50, 170, "CAMBIAR CONTRASEÑA", "grey").medida(300)
+        boton(self.wn, "INGRESAR", "grey", self.command_verificacion).medida_posicion(300, 50, 120,)
+        boton(self.wn, "CAMBIAR CONTRASEÑA", "grey").medida_posicion(300, 50, 170)
     
     def retorna_contra(self):
         return self.contra.get()
@@ -328,10 +338,10 @@ class ventana(ventana_base):
         ventana_agregar_datos(tablaexterna=self.Tabla).mainloop()
 
     def botones(self):
-        boton(self.wn, 425, 310, "VER UNIDADES DETENIDAS", "dodger blue2").medida(200)
-        boton(self.wn, 425, 345, "GENERAR REPORTE", "gold").medida(200)
-        boton(self.wn, 425, 380, "EMITIR ALERTA VEHICULAR", "red").medida(200)
-        boton(self.wn, 425, 415, "INICIAR OPERACIONES", "lawn green",self.pestaña_agregar_datos).medida(200) 
+        boton(self.wn,  "VER UNIDADES DETENIDAS", "dodger blue2").medida_posicion(200, 425, 310)
+        boton(self.wn, "GENERAR REPORTE", "gold").medida_posicion(200, 425, 345)
+        boton(self.wn, "EMITIR ALERTA VEHICULAR", "red").medida_posicion(200, 425, 380)
+        boton(self.wn, "INICIAR OPERACIONES", "lawn green",self.pestaña_agregar_datos).medida_posicion(200, 425, 415) 
     
     def titulos(self):
         titulo(self.wn, 250, 20, "SOFTWARE DE RASTREO Y CONTROL").medida(250,40)
@@ -354,9 +364,16 @@ class ventana(ventana_base):
 
     def tabla(self):
         self.Tabla=table(self.wn, 3, ['ID_VEHICULO','RUTA','CHOFER'])
-        self.Tabla.boton('VER DATOS COMPLETOS', 'grey')
-        self.Tabla.boton('VER EN EL MAPA', 'grey', 1 , 3)
-        self.Tabla.boton('TERMINAR LAS OPERACIONES', 'grey', 1 , 4)
+        boton(self.Tabla.tkframe(), 'VER DATOS COMPLETOS', 'grey', metodo='grid').grid(1, 2)
+        boton(self.Tabla.tkframe(), 'VER EN EL MAPA', 'grey', metodo='grid').grid(1 , 3)
+        boton(self.Tabla.tkframe(), 'TERMINAR LAS OPERACIONES', 'grey', lambda: fng.doc().operacion("B"), metodo='grid').grid(1, 4)
+        
+
+        #VERIFICA SI HAY INFORMACIÓN GUARDADA PARA MOSTRAR EN LA TABLA
+        if fng.doc().operacion("L") != []:
+            for i in fng.doc().operacion('L'):
+                self.Tabla.agregar_datos(i)
+        #----------------------------------------------------------------
 
         self.Tabla.posicionar()
 
