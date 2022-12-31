@@ -4,6 +4,7 @@ from tkinter import messagebox as mb
 import funciones.funcionesGenerales as fng
 import time
 import funciones.conec_mysql as conec
+from funciones.ventanas import vnt
 
 
 
@@ -24,18 +25,14 @@ class subventana():
 
 #CLASE QUE GENERA UN BOTÓN
 class boton():
-    def __init__(self, wn, texto = 'texto predefinido', color='white', cmd=None, metodo='place'):
-        self.metodo=metodo
+    def __init__(self, wn, texto = 'texto predefinido', color='white', cmd=None):
         self.bt= tk.Button(wn, text = texto, bg = color, command=cmd)
 
-
     def medida_posicion(self, base=10, pox=0, poy=0):
-        if self.metodo == "place":
-            self.bt.place(width=base, height=30, x=pox, y=poy)
+        self.bt.place(width=base, height=30, x=pox, y=poy)
 
-    def grid(self,pox, poy, ):
-        if self.metodo == "grid":
-            self.bt.grid(column=pox, row=poy, padx=10, pady=10)
+    def grid(self,pox, poy):
+        self.bt.grid(column=pox, row=poy, padx=10, pady=10)
         
 
 
@@ -148,38 +145,9 @@ class menubar():
             self.m.add_cascade(label=n, menu=elemento)
             self.t1.append(elemento)
 
-    def titulos2(self, posicion, nombre, nombre_comando="", atajo=""):
+    def titulos2(self, posicion, nombre, nombre_comando = lambda: print("No exite un comando"), atajo=""):
         #crea un elemento del submenú, este se obtiene del parámetro normbre
         #n indica la posición del submenú al cual se le van a añadir los elementos
-
-        #Funciones:
-        def cambiar_color_negro(event=None):
-            self.ventana.config(bg='black')
-        def cambiar_color_blanco(event=None):
-            self.ventana.config(bg='white')
-        def cambiar_color_gris(event=None):
-            self.ventana.config(bg='grey')
-        def salir(event=None):
-            self.ventana.quit()
-        def nuevaVentana(event=None):
-            ventana()
-  
-        def sin_comando(event=None):
-            print('No existe ningún comando')
-
-        #Convertir el nombre_comando de string a función:
-        if nombre_comando == 'cambiar_color_negro':
-            nombre_comando = cambiar_color_negro
-        elif nombre_comando == 'cambiar_color_blanco':
-            nombre_comando = cambiar_color_blanco
-        elif nombre_comando == 'cambiar_color_gris':
-            nombre_comando = cambiar_color_gris
-        elif nombre_comando == 'salir':
-            nombre_comando = salir
-        elif nombre_comando == 'nuevaVentana':
-            nombre_comando = nuevaVentana
-        else:
-            nombre_comando = sin_comando
         
         #Agregar el nuevo submenpu y el comando correspondiente
         self.t1[posicion-1].add_command(label=nombre, accelerator=atajo, command=nombre_comando) 
@@ -216,6 +184,7 @@ class ventana_agregar_datos(ventana_base):
         self.ruta=tk.StringVar(value=ruta)
         self.chofer=tk.StringVar(value=chofer)
         self.hora=tk.StringVar(value=hora)
+        
         self.lista_datos=[]
         self.tablaexterna=tablaexterna
 
@@ -364,9 +333,9 @@ class ventana(ventana_base):
 
     def tabla(self):
         self.Tabla=table(self.wn, 3, ['ID_VEHICULO','RUTA','CHOFER'])
-        boton(self.Tabla.tkframe(), 'VER DATOS COMPLETOS', 'grey', metodo='grid').grid(1, 2)
-        boton(self.Tabla.tkframe(), 'VER EN EL MAPA', 'grey', metodo='grid').grid(1 , 3)
-        boton(self.Tabla.tkframe(), 'TERMINAR LAS OPERACIONES', 'grey', lambda: fng.doc().operacion("B"), metodo='grid').grid(1, 4)
+        boton(self.Tabla.tkframe(), 'VER DATOS COMPLETOS', 'grey').grid(1, 2)
+        boton(self.Tabla.tkframe(), 'VER EN EL MAPA', 'grey').grid(1 , 3)
+        boton(self.Tabla.tkframe(), 'TERMINAR LAS OPERACIONES', 'grey', lambda: fng.doc().operacion("B")).grid(1, 4)
         
 
         #VERIFICA SI HAY INFORMACIÓN GUARDADA PARA MOSTRAR EN LA TABLA
@@ -384,15 +353,15 @@ class ventana(ventana_base):
         
         menu1=menubar(self.wn)
         menu1.titulos1('Opciones', 'Herramientas', 'configuración', 'Ayuda')
-        menu1.titulos2(1,'Nueva ventana', 'nuevaVentana', 'Ctrl+N')
-        menu1.titulos2(1,'Modo oscuro', 'cambiar_color_negro')
-        menu1.titulos2(1,'Modo claro', 'cambiar_color_blanco')
-        menu1.titulos2(1,'Modo normal', 'cambiar_color_gris')
+        menu1.titulos2(1,'Nueva ventana', lambda: ventana(), 'Ctrl+N')
+        menu1.titulos2(1,'Modo oscuro', lambda: self.wn.config(bg='black'))
+        menu1.titulos2(1,'Modo claro', lambda: self.wn.config(bg='white'))
+        menu1.titulos2(1,'Modo normal', lambda: self.wn.config(bg='grey'))
         menu1.separador(1)
         menu1.titulos2(1,'Salir', 'salir')
         menu1.titulos2(4, 'Ayuda')
         menu1.separador(4)
-        menu1.titulos2(4, 'Acerca de ...')
+        menu1.titulos2(4, 'Acerca de ...', lambda: vnt().acerca_de())
 
         self.wn.geometry("800x530")
     
