@@ -1,4 +1,5 @@
 import tkinter as tk
+from funciones.funcionesGenerales import abre
 
 #CLASE QUE GENERA UNA VENTANA BÁSICA TOPLEVEL
 class ventana_base ():
@@ -42,8 +43,8 @@ class vnt():
         self.vnt = ventana_base("400x100", "ACERCA DE ...")
         self.wn = self.vnt.return_tk()
         self.linea = dato(self.wn, 10, 10, "ESTE PROGRAMA HA SIDO CREADO COMO PARTE DE UN\nPROYECTO PARA LA ASIGNATURA DE PROGRAMACIÓN II", 380, 40, fuente = ("Arial", 10))
-        self.boton1 = boton(self.wn, "VER REPOSITORIO (GITHUB)", "grey", None).medida_posicion(185, 10, 60)
-        self.boton2 = boton(self.wn, "DESCARGAR INSTALADOR", "grey", None).medida_posicion(185, 205, 60)
+        self.boton1 = boton(self.wn, "VER REPOSITORIO (GITHUB)", "grey", lambda: abre("repo", self.wn)).medida_posicion(185, 10, 60)
+        self.boton2 = boton(self.wn, "DESCARGAR PROGRAMA", "grey", lambda: abre("insta", self.wn)).medida_posicion(185, 205, 60)
         self.wn.mainloop()
 
 

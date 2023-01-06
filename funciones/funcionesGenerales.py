@@ -1,4 +1,5 @@
 import pylatex as ptx
+import webbrowser as wb
 # from pylatex import Document, section, Subsection, 
 
 #FUNCION QUE CREA UN DOCUMENTO PDF
@@ -101,3 +102,27 @@ class doc(convert):
             elif opcion == "B":
                 file.write("")
 
+
+"""##############################################################################################################"""
+# ------------------------------------------------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------------------------------------------------
+"""##############################################################################################################"""
+
+#ABRIR DIRECCIONES WEB
+
+# lista de enlaces
+repositorio_git_proyecto = "https://github.com/Programapython/gui_progra_2"
+instaladores = "https://drive.google.com/drive/folders/14vLAJIizDJtl1uRlQGc7pIsXCnJ9yMzS?usp=sharing"
+
+class abre():
+    def __init__(self, opcion, ventana):
+        
+        if opcion == "repo":
+            wb.open(repositorio_git_proyecto)
+        elif opcion == "insta":
+            wb.open(instaladores)
+
+        if ventana != None:
+            ventana.destroy()
+            
