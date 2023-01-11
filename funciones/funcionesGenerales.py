@@ -1,5 +1,9 @@
 import pylatex as ptx
 import webbrowser as wb
+
+# ------------------------------------------------------------------------------------------------------------------
+"""##############################################################################################################"""
+
 # from pylatex import Document, section, Subsection, 
 
 #FUNCION QUE CREA UN DOCUMENTO PDF
@@ -82,6 +86,9 @@ class convert():
 # ESCRIBIR DOCUMENTO
 class doc(convert):
     # Doc HEREDA LOS MÉTODOS DE LA CLASE CONVERT 
+    def __init__(self, doc = "./documentos/data.txt"):
+        self.doc = doc
+    
     def operacion(self, opcion, informacion = None):
 
         self.strORlist = informacion 
@@ -92,20 +99,33 @@ class doc(convert):
             modo = "w"
         elif opcion == "L":
             modo = "r"
+        elif opcion == "LE":
+            modo = "r"
         
-        with open("./documentos/data.txt", modo) as file:
+        with open(self.doc, modo) as file:
             if opcion == "soloE" or opcion == "E":
                 self.string = self.list_string(informacion)
                 file.write(self.string)
             elif opcion == "L":
-                return self.string_list(file.readlines())
+                L=self.string_list(file.readlines())
+                del L[0]
+                return L
+            elif opcion == "LE":
+                L=self.string_list(file.readlines())
+                return L
             elif opcion == "B":
                 file.write("")
 
 
 """##############################################################################################################"""
 # ------------------------------------------------------------------------------------------------------------------
-
+# ------------------------------------------------------------------------------------------------------------------
+"""##############################################################################################################"""
+def reiniciar_op():
+    doc().operacion("E",[['ID_VEHICULO','RUTA','CHOFER']])
+    doc("./documentos/data2.txt").operacion("E",[["mapas_creados","0"]])
+"""##############################################################################################################"""
+# ------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------
 """##############################################################################################################"""
 
@@ -125,4 +145,4 @@ class abre():
 
         if ventana != None:
             ventana.destroy()
-            
+

@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-from tkinter import messagebox as mb
+from tkinter import messagebox as mbx
+from tkinter import filedialog
 import funciones.funcionesGenerales as fng
 import funciones.conec_mysql as conec
 import time
@@ -26,7 +27,7 @@ class boton():
 #CLASE QUE GENERA CUADROS DE TEXTO ESTÁTICO 
 class titulo():
     def __init__(self, wn, pox=0, poy=0, contenido = 'texto predefinido', colorL = 'cyan', colorC='black'):
-        self.tl = tk.Label(wn, text = contenido ,fg = colorL, bg = colorC)
+        self.tl = tk.Label(wn, text = contenido ,fg = colorL, bg = colorC,)
         self.tl.place(x = pox, y = poy)
 
     def medida(self, base, altura=30):
@@ -34,8 +35,8 @@ class titulo():
 
 #CLASE QUE GENERA CUADROS PARA INGRESAR DATOS
 class dato():
-    def __init__(self, wn, pox, poy, informacion, base=50, altura=30):
-        self.dt=tk.Label(wn, text=informacion, fg="black", bg="cyan", font = ("Tahoma", 15))
+    def __init__(self, wn, pox, poy, informacion, base=50, altura=30, fuente=("Tahoma", 15), fondo="cyan"):
+        self.dt=tk.Label(wn, text=informacion, fg="black", bg=fondo, font = fuente)
         self.dt.place(x=pox, y=poy, width=base, height=altura)
 
 #CLASE QUE GENERA CUADROS DE TEXTO PARA COMPLETAR
@@ -213,7 +214,7 @@ class ventana_agregar_datos(ventana_base):
             self.chofer.set("")
             self.hora.set("")
         else:
-            mb.showerror(message="Complete todos los campos", title="DATOS INCOMPLETOS")
+            mbx.showerror(message="Complete todos los campos", title="DATOS INCOMPLETOS")
             self.wn.destroy()
             ventana_agregar_datos(linea[0], linea[1], linea[2], linea[3], self.lista_datos, tablaexterna=self.tablaexterna)
 
@@ -230,11 +231,11 @@ class ventana_agregar_datos(ventana_base):
                     self.tablaexterna.agregar_datos(dato)
                 self.wn.destroy()
             elif self.vnt2.retorna_contra()=="":
-                mb.showinfo(message="Ingrese un valor válido", title="SIN CONTRASEÑA")
+                mbx.showinfo(message="Ingrese un valor válido", title="SIN CONTRASEÑA")
                 self.vnt2.return_tk().destroy()
                 self.verificar_acceso()
             else:
-                mb.showerror(message="Ingrese un valor correcto", title="CONTRASEÑA INCORRECTA")
+                mbx.showerror(message="Ingrese un valor correcto", title="CONTRASEÑA INCORRECTA")
                 self.vnt2.return_tk().destroy()
                 self.verificar_acceso()
                 
@@ -242,8 +243,6 @@ class ventana_agregar_datos(ventana_base):
         self.vnt2.mainloop()
 
 
-    def ventana_editar_datos(self):
-        pass
 
 
 #CLASE QUE CREA UNA VENTANA PARA VERIFICAR ACCESO MEDIANTE UNA CONTRASEÑA
@@ -274,11 +273,28 @@ class vnt():
     def acerca_de(self):
         self.vnt = ventana_base("400x100", "ACERCA DE ...")
         self.wn = self.vnt.return_tk()
-        self.linea = dato(self.wn, 10, 10, "ESTE PROGRAMA HA SIDO CREADO COMO PARTE DE UN\nPROYECTO PARA LA ASIGNATURA DE PROGRAMACIÓN II", 380, 40, fuente = ("Arial", 10))
+        self.contenido = dato(self.wn, 10, 10, "ESTE PROGRAMA HA SIDO CREADO COMO PARTE DE UN\nPROYECTO PARA LA ASIGNATURA DE PROGRAMACIÓN II", 
+        380, 40, fuente = ("Arial", 10), fondo="grey")
         self.boton1 = boton(self.wn, "VER REPOSITORIO (GITHUB)", "grey", lambda: fng.abre("repo", self.wn)).medida_posicion(185, 10, 60)
         self.boton2 = boton(self.wn, "DESCARGAR PROGRAMA", "grey", lambda: fng.abre("insta", self.wn)).medida_posicion(185, 205, 60)
         self.wn.mainloop()
-
+    
+    def generar_pdf(self):
+        self.vnt = ventana_base("300x300", "GENERAR REPORTE")
+        self.wn = self.vnt.return_tk()
+        self.titulo1 = titulo(self.wn, 10, 10, "GENERAR PDF").medida(100,30)
+        ey=40
+        p0=50
+        self.titulo2 = titulo(self.wn, 20, p0, "VEHÍCULO").medida(260,30)
+        self.cuadro1 = cuadro_editor(self.wn, 25, p0+ey, 120, 30)
+        self.boton1 = boton(self.wn, "TODOS", "grey").medida_posicion(125,150,p0+ey)
+        self.titulo2 = titulo(self.wn, 20, p0+2*ey, "FECHA").medida(260,30)
+        self.cuadro2 = cuadro_editor(self.wn, 25, p0+3*ey, 250, 30)
+        self.titulo3 = titulo(self.wn, 20, p0+4*ey, "CARPETA").medida(260,30)
+        self.cuadro3 = cuadro_editor(self.wn, 25, p0+5*ey, 120, 30)
+        self.boton1 = boton(self.wn, "CAMBIAR", "grey").medida_posicion(125,150,p0+5*ey)
+        
+        self.wn.mainloop()
 
 '''
 CLASES DESECHADAS/INUTILIZADAS

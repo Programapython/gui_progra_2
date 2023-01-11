@@ -1,6 +1,7 @@
 import tkinter as tk
 import funciones.funcionesGenerales as fng
-from funciones.ventanas import boton, titulo, dato, fecha_hora, table, menubar, ventana_base, ventana_agregar_datos, vnt
+from funciones.ventanas import *
+import funciones.mapa as mapa
 
 #CLASE QUE INICIALIAZ LA VENTANA PRINCIPAL DE LA APLICACIÓN
 
@@ -19,16 +20,13 @@ class ventana(ventana_base):
         self.tabla()
         self.menu()
         self.mainloop()
-        
 
-    def pestaña_agregar_datos(self):
-        ventana_agregar_datos(tablaexterna=self.Tabla).mainloop()
 
     def botones(self):
         boton(self.wn,  "VER UNIDADES DETENIDAS", "dodger blue2").medida_posicion(200, 425, 310)
-        boton(self.wn, "GENERAR REPORTE", "gold").medida_posicion(200, 425, 345)
+        boton(self.wn, "GENERAR REPORTE", "gold", lambda: vnt().generar_pdf()).medida_posicion(200, 425, 345)
         boton(self.wn, "EMITIR ALERTA VEHICULAR", "red").medida_posicion(200, 425, 380)
-        boton(self.wn, "INICIAR OPERACIONES", "lawn green",self.pestaña_agregar_datos).medida_posicion(200, 425, 415) 
+        boton(self.wn, "INICIAR OPERACIONES", "lawn green",lambda: ventana_agregar_datos(tablaexterna=self.Tabla).mainloop()).medida_posicion(200, 425, 415) 
     
     def titulos(self):
         titulo(self.wn, 250, 20, "SOFTWARE DE RASTREO Y CONTROL").medida(250,40)
@@ -48,17 +46,19 @@ class ventana(ventana_base):
 
     def tiempo(self):
         fecha_hora(self.wn)
+    
+    
 
     def tabla(self):
         self.Tabla=table(self.wn, 3, ['ID_VEHICULO','RUTA','CHOFER'])
         boton(self.Tabla.tkframe(), 'VER DATOS COMPLETOS', 'grey').grid(1, 2)
-        boton(self.Tabla.tkframe(), 'VER EN EL MAPA', 'grey').grid(1 , 3)
-        boton(self.Tabla.tkframe(), 'TERMINAR LAS OPERACIONES', 'grey', lambda: fng.doc().operacion("B")).grid(1, 4)
+        boton(self.Tabla.tkframe(), 'VER EN EL MAPA', 'grey', lambda: mapa.new_map()).grid(1 , 3)
+        boton(self.Tabla.tkframe(), 'TERMINAR LAS OPERACIONES', 'grey', lambda: fng.reiniciar_op()).grid(1, 4)
         
-
         #VERIFICA SI HAY INFORMACIÓN GUARDADA PARA MOSTRAR EN LA TABLA
-        if fng.doc().operacion("L") != []:
-            for i in fng.doc().operacion('L'):
+        d_grd = fng.doc().operacion('L')
+        if d_grd != []:
+            for i in d_grd:
                 self.Tabla.agregar_datos(i)
         #----------------------------------------------------------------
 
@@ -83,7 +83,8 @@ class ventana(ventana_base):
 
 
 # EJECUCUIÓN DE LA INTERFAZ
-vn=ventana()
+if __name__ == "__main__":
+    vn=ventana()
 
 
         

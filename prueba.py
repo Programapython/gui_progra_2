@@ -25,20 +25,29 @@
 
 
 from tkinter import *
+from tkinter import filedialog, simpledialog
 
-def sel():
-   selection = "Value = " + str(var.get())
-   label.config(text = selection)
+# def sel():
+#    selection = "Value = " + str(var.get())
+#    label.config(text = selection)
 
-root = Tk()
-var = DoubleVar()
-scale = Scale( root, variable = var )
-scale.pack(anchor=CENTER)
+# root = Tk()
+# var = DoubleVar()
+# scale = Scale( root, variable = var )
+# scale.pack(anchor=CENTER)
 
-button = Button(root, text="Get Scale Value", command=sel)
-button.pack(anchor=CENTER)
+# button = Button(root, text="Get Scale Value", command=sel)
+# button.pack(anchor=CENTER)
 
-label = Label(root)
-label.pack()
+# label = Label(root)
+# label.pack()
 
-root.mainloop()
+# root.mainloop()
+
+# f=filedialog.askopenfilename(title="DOCUMENTOS")
+# print(f)
+# n=filedialog.askdirectory()
+
+# a=simpledialog.askfloat(title="hola", prompt="fsdsf")
+# print(a)
+import funciones.funcionesGenerales as fng
