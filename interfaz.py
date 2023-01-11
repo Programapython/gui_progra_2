@@ -5,7 +5,7 @@ import time
 ventana = Tk()
 ventana.geometry("800x500")
 ventana.title("SISTEMA DE CONTROL VEHICULAR")
-ventana.iconbitmap("./images/Micro.ico")
+ventana.iconbitmap("./imagenes/Micro.ico")
 ventana.config(bg = "gray")
 ventana.resizable(0,0)
 

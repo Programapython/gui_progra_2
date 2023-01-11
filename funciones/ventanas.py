@@ -145,7 +145,7 @@ class menubar():
 
 #CLASE QUE GENERA UNA VENTANA BÁSICA TOPLEVEL
 class ventana_base ():
-    def __init__(self, geo="800x500", tl="SISTEMA DE CONTROL VEHICULAR", icon="./images/Micro.ico"):
+    def __init__(self, geo="800x500", tl="SISTEMA DE CONTROL VEHICULAR", icon="./imagenes/Micro.ico"):
         self.wn=tk.Toplevel()
         self.wn.geometry(geo)
         self.wn.title(tl)
@@ -168,6 +168,7 @@ class ventana_agregar_datos(ventana_base):
         self.ruta=tk.StringVar(value=ruta)
         self.chofer=tk.StringVar(value=chofer)
         self.hora=tk.StringVar(value=hora)
+        self.fecha=time.strftime('%Y-%m-%d')
         
         self.lista_datos=[]
         self.tablaexterna=tablaexterna
@@ -199,7 +200,7 @@ class ventana_agregar_datos(ventana_base):
 
 
     def agrega_vehiculo(self):
-        linea = [self.id_veh.get(), self.ruta.get(), self.chofer.get(), self.hora.get()]
+        linea = [self.id_veh.get(), self.ruta.get(), self.chofer.get(), self.hora.get(), self.fecha]
         lista_vacios = []
         for i in range(len(linea)):
             if linea[i] == "":
@@ -226,7 +227,7 @@ class ventana_agregar_datos(ventana_base):
         def comprobar_contraseña():
             if conec.verificar_contraseña(self.vnt2.retorna_contra())==[[1]]:
                 self.vnt2.return_tk().destroy()
-                fng.doc().operacion("E",self.lista_datos)
+                fng.doc().operacion("soloE",self.lista_datos)
                 for dato in self.lista_datos:
                     self.tablaexterna.agregar_datos(dato)
                 self.wn.destroy()
@@ -273,7 +274,8 @@ class vnt():
     def acerca_de(self):
         self.vnt = ventana_base("400x100", "ACERCA DE ...")
         self.wn = self.vnt.return_tk()
-        self.contenido = dato(self.wn, 10, 10, "ESTE PROGRAMA HA SIDO CREADO COMO PARTE DE UN\nPROYECTO PARA LA ASIGNATURA DE PROGRAMACIÓN II", 
+        self.contenido = dato(self.wn, 10, 10,
+        "ESTE PROGRAMA HA SIDO CREADO COMO PARTE DE UN\nPROYECTO PARA LA ASIGNATURA DE PROGRAMACIÓN II",
         380, 40, fuente = ("Arial", 10), fondo="grey")
         self.boton1 = boton(self.wn, "VER REPOSITORIO (GITHUB)", "grey", lambda: fng.abre("repo", self.wn)).medida_posicion(185, 10, 60)
         self.boton2 = boton(self.wn, "DESCARGAR PROGRAMA", "grey", lambda: fng.abre("insta", self.wn)).medida_posicion(185, 205, 60)

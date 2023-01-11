@@ -50,4 +50,6 @@ from tkinter import filedialog, simpledialog
 
 # a=simpledialog.askfloat(title="hola", prompt="fsdsf")
 # print(a)
-import funciones.funcionesGenerales as fng
+from funciones.funcionesGenerales import  *
+
+doc().operacion("E",[['ID_VEHICULO','RUTA','CHOFER','HORA_SALIDA','DIA_SALIDA','MARCA_1','VEL_1','MARCA_2','VEL_2','MARCA_3','VEL_3','MARCA_LLEGADA']])

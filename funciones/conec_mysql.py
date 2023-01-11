@@ -5,7 +5,7 @@ from mysql.connector import Error
 
 #PEDIDOS:
 
-datos_tabla = "SELECT * FROM Vehículo"
+enviar_datos_tabla = lambda datos_ingresados: "INSERT INTO `Trayectoria_Vehículo` (`ID_Vehiculo`, `Ruta`, `ID_Chofer`, `Hora_Salida`, `dia_salida`, `marca_1`, `vel_1`, `marca_2`, `vel_2`, `marca_3`, `vel_3`, `marca_llegada`) VALUES ({datos_ingresados});"
 
 buscar_contraseña =lambda i: f'''CALL buscar_contraseña('{i}')'''
 
@@ -43,8 +43,9 @@ class conexion_msql():
 
 # FUNCIONES PARA LEER DATOS
 
-def datos_tabla_principal():
-    return conexion_msql(datos_tabla).verificar_data()
+def datos_tabla_principal(lista_datos):
+    for dato in lista_datos:
+        return conexion_msql(enviar_datos_tabla(i)).verificar_data()
 
 def verificar_contraseña(contraseña):
     return conexion_msql(buscar_contraseña(contraseña)).verificar_data()

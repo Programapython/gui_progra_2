@@ -47,7 +47,6 @@ class ventana(ventana_base):
     def tiempo(self):
         fecha_hora(self.wn)
     
-    
 
     def tabla(self):
         self.Tabla=table(self.wn, 3, ['ID_VEHICULO','RUTA','CHOFER'])
