@@ -1,1 +1,1 @@
-mapas_creados,0
+mapas_creados,2

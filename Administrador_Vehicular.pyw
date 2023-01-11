@@ -10,7 +10,7 @@ class ventana(ventana_base):
         self.wn=tk.Tk()
         self.wn.geometry("800x500")
         self.wn.title("SISTEMA DE CONTROL VEHICULAR")
-        self.wn.iconbitmap("./images/Micro.ico")
+        self.wn.iconbitmap("./imagenes/Micro.ico")
         self.wn.config(bg = "gray")
         self.wn.resizable(0,0)
         self.botones()
