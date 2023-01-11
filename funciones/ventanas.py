@@ -195,7 +195,7 @@ class ventana_agregar_datos(ventana_base):
             for valor in datos_anteriores:
                 self.lista_datos.append(valor)
         self.Tabla.posicionar(pox=450, poy=60)
-        boton(self.wn, "EDITAR VISTA PREVIA", "grey", self.ventana_editar_datos).medida_posicion(400, 450, 305)
+        boton(self.wn, "EDITAR VISTA PREVIA", "grey").medida_posicion(400, 450, 305)
 
 
     def agrega_vehiculo(self):
