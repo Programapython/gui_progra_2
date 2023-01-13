@@ -368,9 +368,7 @@ class vnt():
                         fng.cambiar_dato("./documentos/data2.txt",1,imagen)
                         fng.cambiar_dato("./documentos/data2.txt",2,"imagen")
                         self.wn.destroy()
-                        self.ventana_fondo(ventana)
-                    
-                self.wn.destroy()        
+                        self.ventana_fondo(ventana)     
 
             
             elif (tipo_fondo == "black" or tipo_fondo == "white" or tipo_fondo == "grey") and self.tipo.get() == "color":
