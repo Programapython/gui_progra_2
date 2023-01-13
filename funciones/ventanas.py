@@ -330,11 +330,14 @@ class vnt():
         p0=50 #espacio en el eje y del primer elemento
 
         def cambiar_fondo(tipo_fondo):
-
+            #----------------------------------------------------------------------------------------------
+            #----------------------------------------------------------------------------------------------
             def verificar_imagen():
                 if self.tipo_inicial == "imagen":
                     return messagebox.askyesnocancel("INFORMACIÓN",
                     "Para que los cambios se hagan vivibles necesita reiniciar manualmente el programa")
+            #----------------------------------------------------------------------------------------------
+            #---------------------------------------------------------------------------------------------- 
             
             if tipo_fondo == "color" and self.tipo.get() == "color":
                 
@@ -349,12 +352,14 @@ class vnt():
                 verificar_imagen()
                 self.ventana_fondo(ventana)
             
+            
             if tipo_fondo == "imagen" and self.tipo.get() == "imagen":
                 
                 imagen = filedialog.askopenfilename(title="ELIGE LA IMAGEN",
                         filetypes=[("Imagenes png", ".png"),
                         ("Imagenes jpeg", ".jpeg"),
-                        ("Imagenes jpg", ".jpg")])
+                        ("Imagenes jpg", ".jpg"),
+                        ("Todos archivos", "*.*")])
 
                 if imagen != "":
                     confirmacion=messagebox.askyesnocancel("CONFIRMACIÓN",
@@ -363,6 +368,10 @@ class vnt():
                         fng.cambiar_dato("./documentos/data2.txt",1,imagen)
                         fng.cambiar_dato("./documentos/data2.txt",2,"imagen")
                         self.wn.destroy()
+                        self.ventana_fondo(ventana)
+                    
+                self.wn.destroy()        
+
             
             elif (tipo_fondo == "black" or tipo_fondo == "white" or tipo_fondo == "grey") and self.tipo.get() == "color":
                 ventana.config(bg=tipo_fondo)

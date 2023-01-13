@@ -81,7 +81,6 @@ class ventana(ventana_base):
             if fng.fondo_pantalla("tipo") == "imagen":
                 messagebox.showerror(title="ERROR AL ABRIR UNA NUEVA VENTANA", 
                 message="No se pueden abrir nuevas pestañas cuando se tiene como fondo de pantalla una imagen.")
-                print("hfkjhdsj")
             else:
                 ventana()
         def terminar_op(event=None):
