@@ -17,8 +17,8 @@ class ventana(ventana_base):
             imagen=Image.open(fng.fondo_pantalla())
             imagen=imagen.resize((800,530), Image.ANTIALIAS)
             img=ImageTk.PhotoImage(imagen)
-            tk.Label(self.wn, image=img).place(x=0,y=0)
-            self.wn.config(bg = "grey")
+            self.label=tk.Label(self.wn, image=img)
+            self.label.place(x=0,y=0)
         else:  
             self.wn.config(bg = fng.fondo_pantalla())
         
@@ -78,9 +78,10 @@ class ventana(ventana_base):
     def menu(self):
         #FUNCONES QUE SE USARAN DESPUES
         def nuevaventana(event=None):
-            if fng.fondo_pantalla("tipo") == "image":
+            if fng.fondo_pantalla("tipo") == "imagen":
                 messagebox.showerror(title="ERROR AL ABRIR UNA NUEVA VENTANA", 
                 message="No se pueden abrir nuevas pestañas cuando se tiene como fondo de pantalla una imagen.")
+                print("hfkjhdsj")
             else:
                 ventana()
         def terminar_op(event=None):

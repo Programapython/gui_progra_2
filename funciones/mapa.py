@@ -21,7 +21,6 @@ class new_map():
         map.save(direccion)
 
         #SE GUARDA LA CANTIDAD DE MAPAS CREADOS
-        dato=[["mapas_creados",str(i)]]
-        fng.doc("./documentos/data2.txt").operacion("E", dato)
+        fng.cambiar_dato("./documentos/data2.txt",0,str(i))
 
         webbrowser.open(direccion)
