@@ -121,9 +121,23 @@ class doc(convert):
 # ------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------
 """##############################################################################################################"""
-def reiniciar_op():
+#FUNCIONES VARIADAS QUE MODIFICAN CARACTERISTICAS Y DATOS DE LA APLICACIÓN
+
+def cambiar_dato(documento, n_dato, n_valor):
+    contenido_data=doc(documento).operacion("LE")
+    contenido_data[n_dato][1]=n_valor
+    doc(documento).operacion("E",contenido_data)
+
+def finalizar_op():
     doc().operacion("E",[['ID_VEHICULO','RUTA','CHOFER','HORA_SALIDA','DIA_SALIDA','MARCA_1','VEL_1','MARCA_2','VEL_2','MARCA_3','VEL_3','MARCA_LLEGADA']])
-    doc("./documentos/data2.txt").operacion("E",[["mapas_creados","0"]])
+    cambiar_dato("./documentos/data2.txt",0,"0")
+
+def fondo_pantalla(opcion=None):
+    if opcion == "tipo":
+        return doc("./documentos/data2.txt").operacion("LE")[2][1]
+    else:
+        return doc("./documentos/data2.txt").operacion("LE")[1][1]
+
 """##############################################################################################################"""
 # ------------------------------------------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------------------------------------------
@@ -143,6 +157,9 @@ class abre():
         elif opcion == "insta":
             wb.open(instaladores)
 
+        #CIERRA LA VENTANA DE TKINTER QUE NOS REDIRECCIONA AL ENLACE
         if ventana != None:
             ventana.destroy()
+
+
 

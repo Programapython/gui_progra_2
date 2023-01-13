@@ -1,1 +1,3 @@
 mapas_creados,0
+fondo__pantalla_defecto,#969f60
+tipo_fondo,color
