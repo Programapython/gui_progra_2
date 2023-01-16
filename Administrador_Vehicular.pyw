@@ -13,14 +13,14 @@ class ventana(ventana_base):
         self.wn.title("SISTEMA DE CONTROL VEHICULAR")
         self.wn.iconbitmap("./imagenes/Micro.ico")
 
-        if fng.fondo_pantalla("tipo") == "imagen":
-            imagen=Image.open(fng.fondo_pantalla())
+        if fng.buscar_doc2("tipo_fondo") == "imagen":
+            imagen=Image.open(fng.buscar_doc2("fondo_pantalla"))
             imagen=imagen.resize((800,530), Image.ANTIALIAS)
             img=ImageTk.PhotoImage(imagen)
             self.label=tk.Label(self.wn, image=img)
             self.label.place(x=0,y=0)
         else:  
-            self.wn.config(bg = fng.fondo_pantalla())
+            self.wn.config(bg = fng.buscar_doc2("fondo_pantalla"))
         
         self.wn.resizable(0,0)
         self.botones()
@@ -69,6 +69,9 @@ class ventana(ventana_base):
         d_grd = fng.doc().operacion('L')
         if d_grd != []:
             for i in d_grd:
+                #ELIMINA EL ID_SALIDA DE LOS DATOS ENCONTRADOS
+                del i[0]
+                #---------------------------------------------
                 self.Tabla.agregar_datos(i)
         #-------------------------------------------------------------
         #-------------------------------------------------------------
@@ -76,9 +79,9 @@ class ventana(ventana_base):
         self.Tabla.posicionar()
 
     def menu(self):
-        #FUNCONES QUE SE USARAN DESPUES
+        #FUNCIONES QUE SE USARAN DESPUES
         def nuevaventana(event=None):
-            if fng.fondo_pantalla("tipo") == "imagen":
+            if fng.buscar_doc2("tipo_fondo") == "imagen":
                 messagebox.showerror(title="ERROR AL ABRIR UNA NUEVA VENTANA", 
                 message="No se pueden abrir nuevas pestañas cuando se tiene como fondo de pantalla una imagen.")
             else:

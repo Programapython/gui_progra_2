@@ -1,13 +1,8 @@
 import mysql.connector
-from mysql.connector import Error 
+from mysql.connector import Error
+import funciones.funcionesGenerales as fng
 #Comando para descargar el modeulo de conexión con mysql
 #pip install mysql-connector-python
-
-#PEDIDOS:
-
-enviar_datos_tabla = lambda datos_ingresados: "INSERT INTO `Trayectoria_Vehículo` (`ID_Vehiculo`, `Ruta`, `ID_Chofer`, `Hora_Salida`, `dia_salida`, `marca_1`, `vel_1`, `marca_2`, `vel_2`, `marca_3`, `vel_3`, `marca_llegada`) VALUES ({datos_ingresados});"
-
-buscar_contraseña =lambda i: f'''CALL buscar_contraseña('{i}')'''
 
 #CLASE QUE GENERA UNA CONEXIÓN CON MYSQL
 class conexion_msql():
@@ -43,16 +38,18 @@ class conexion_msql():
 
 # FUNCIONES PARA LEER DATOS
 
-def datos_tabla_principal(lista_datos):
-    for dato in lista_datos:
-        return conexion_msql(enviar_datos_tabla(i)).verificar_data()
+def verificar_contraseña(contra):
+    return conexion_msql(f'''CALL buscar_contraseña('{contra}')''').verificar_data()
 
-def verificar_contraseña(contraseña):
-    return conexion_msql(buscar_contraseña(contraseña)).verificar_data()
 
 # FUNCIONES PARA AGREGAR DATOS
 
-def agregar_datos_tabla_principal():
-    pass
-
+def enviar_datos_tabla():
+    lista_datos = fng.doc().operacion("L")
+    pedido = ''''''
+    for dato in lista_datos:
+        pedido+=f'''INSERT INTO `Trayectoria_Vehículo` (`ID_Vehiculo`, `Ruta`, `ID_Chofer`, `Hora_Salida`, `dia_salida`, `marca_1`, `vel_1`, `marca_2`, `vel_2`, `marca_3`, `vel_3`, `marca_llegada`) 
+                                           VALUES ('{dato[1]},'{dato[2]}','{dato[3]}','{dato[4]}','{dato[5]}','{dato[6]}','{dato[7]}','{dato[8]}','{dato[9]}','{dato[10]}','{dato[11]}','{dato[12]}');'''
+        
+    conexion_msql(pedido).verificar_data()
 

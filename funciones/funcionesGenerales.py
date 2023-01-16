@@ -1,6 +1,22 @@
 import pylatex as ptx
 import webbrowser as wb
+import fpdf
+import shutil
 
+# ------------------------------------------------------------------------------------------------------------------
+"""##############################################################################################################"""
+class crear_doc():
+    def __init__(self):
+        pdf=fpdf.FPDF()
+        pdf.add_page()
+        pdf.set_font("Arial",size=12)
+        pdf.cell(200,10,txt="Prueba1",border=True,ln=3, align="C")
+        pdf.output(dest='F',name="E:/USUARIO/GUSTAVO/Documentos2/UNIVERSIDAD_CICLO_IV/PROGRAMACIÓN_II")
+        shutil.move("./documentos/hola.pdf","E:/USUARIO/GUSTAVO/Documentos2/UNIVERSIDAD_CICLO_IV/PROGRAMACIÓN_II")
+
+
+# ------------------------------------------------------------------------------------------------------------------
+"""##############################################################################################################"""
 # ------------------------------------------------------------------------------------------------------------------
 """##############################################################################################################"""
 
@@ -83,7 +99,7 @@ class convert():
 # ------------------------------------------------------------------------------------------------------------------
 """##############################################################################################################"""
 
-# ESCRIBIR DOCUMENTO
+# ESCRIBIR/LEER DOCUMENTO
 class doc(convert):
     # Doc HEREDA LOS MÉTODOS DE LA CLASE CONVERT 
     def __init__(self, doc = "./documentos/data.txt"):
@@ -123,20 +139,37 @@ class doc(convert):
 """##############################################################################################################"""
 #FUNCIONES VARIADAS QUE MODIFICAN CARACTERISTICAS Y DATOS DE LA APLICACIÓN
 
-def cambiar_dato(documento, n_dato, n_valor):
-    contenido_data=doc(documento).operacion("LE")
-    contenido_data[n_dato][1]=n_valor
-    doc(documento).operacion("E",contenido_data)
+def cambiar_doc2(encabezado, nuevo_valor):
+    contenido_data=doc("./documentos/data2.txt").operacion("LE")
+    for encabezado_dato in contenido_data:
+        if encabezado_dato[0] == encabezado:
+            encabezado_dato[1] = nuevo_valor
+            break
+    doc("./documentos/data2.txt").operacion("E",contenido_data)
 
 def finalizar_op():
-    doc().operacion("E",[['ID_VEHICULO','RUTA','CHOFER','HORA_SALIDA','DIA_SALIDA','MARCA_1','VEL_1','MARCA_2','VEL_2','MARCA_3','VEL_3','MARCA_LLEGADA']])
-    cambiar_dato("./documentos/data2.txt",0,"0")
+    # BORRA LOS DATOS DE DATA PARA QUE MUESTRE SOLO ENCABEZADOS
+    doc().operacion("E",[['ID_VEHICULO','RUTA','CHOFER','HORA_SALIDA','DIA_SALIDA','MARCA_1','VEL_1','MARCA_2','VEL_2','MARCA_3','VEL_3','MARCA_LLEGADA','ID_SALIDA']])
+    # COLOCAR EL CONTADOR DE LOS MAPAS EN CERO
+    cambiar_doc2("numero_mapas",0)
+    cambiar_doc2("numero_salidas",0)
 
-def fondo_pantalla(opcion=None):
-    if opcion == "tipo":
-        return doc("./documentos/data2.txt").operacion("LE")[2][1]
-    else:
-        return doc("./documentos/data2.txt").operacion("LE")[1][1]
+def buscar_doc2(dato_buscado=None):
+    datos_encabezados=doc("./documentos/data2.txt").operacion("LE")
+    for encabezado_dato in datos_encabezados:
+        if encabezado_dato[0] == dato_buscado:
+            return encabezado_dato[1]
+            break
+
+def agregar_nueva_salida(data_ingresada):
+    n_salida=buscar_doc2("numero_salidas")
+    nuevas_salidas=data_ingresada
+    for data in nuevas_salidas:
+        n_salida=int(n_salida)+1
+        data.insert(0,str(n_salida))
+    
+    cambiar_doc2("numero_salidas",str(n_salida))
+    doc().operacion("soloE",nuevas_salidas)
 
 """##############################################################################################################"""
 # ------------------------------------------------------------------------------------------------------------------
@@ -160,6 +193,3 @@ class abre():
         #CIERRA LA VENTANA DE TKINTER QUE NOS REDIRECCIONA AL ENLACE
         if ventana != None:
             ventana.destroy()
-
-
-

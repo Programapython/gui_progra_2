@@ -1,3 +1,4 @@
-mapas_creados,0
-fondo__pantalla_defecto,#8ab54a
+numero_mapas,70
+fondo_pantalla,grey
 tipo_fondo,color
+numero_salidas,23

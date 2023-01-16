@@ -170,7 +170,10 @@ class ventana_base ():
         self.wn.geometry(geo)
         self.wn.title(tl)
         self.wn.iconbitmap(icon)
-        self.wn.config(bg = "gray")
+        if fng.buscar_doc2("tipo_fondo") == "imagen":
+            self.wn.config(bg = "gray")
+        else:  
+            self.wn.config(bg = fng.buscar_doc2("fondo_pantalla"))
         self.wn.resizable(0,0)
     
     def mainloop(self):
@@ -212,9 +215,11 @@ class ventana_agregar_datos(ventana_base):
         #TABLA
         titulo(self.wn, 450, 20, "VISTA PREVIA").medida(400,30)
         self.Tabla=table(self.wn, 4, ['ID_VEHICULO','RUTA','CHOFER','HORA'], False)
+        print(datos_anteriores)
         if len(datos_anteriores) != 0:
             for valor in datos_anteriores:
                 self.lista_datos.append(valor)
+                self.Tabla.agregar_datos(valor)
         self.Tabla.posicionar(pox=450, poy=60)
         boton(self.wn, "EDITAR VISTA PREVIA", "grey").medida_posicion(400, 450, 305)
 
@@ -239,17 +244,15 @@ class ventana_agregar_datos(ventana_base):
             self.wn.destroy()
             ventana_agregar_datos(linea[0], linea[1], linea[2], linea[3], self.lista_datos, tablaexterna=self.tablaexterna)
 
-    def retorna_datos(self):
-        return self.lista_datos
     
     def verificar_acceso(self):
         
         def comprobar_contraseña():
             if conec.verificar_contraseña(self.vnt2.retorna_contra())==[[1]]:
                 self.vnt2.return_tk().destroy()
-                fng.doc().operacion("soloE",self.lista_datos)
                 for dato in self.lista_datos:
                     self.tablaexterna.agregar_datos(dato)
+                fng.agregar_nueva_salida(self.lista_datos)
                 self.wn.destroy()
             elif self.vnt2.retorna_contra()=="":
                 messagebox.showinfo(message="Ingrese un valor válido", title="SIN CONTRASEÑA")
@@ -321,9 +324,9 @@ class vnt():
     def ventana_fondo(self, ventana):
         self.vnt = ventana_base("350x250", "MODIFICAR APARIENCIA")
         self.wn = self.vnt.return_tk()
-        self.tipo=tk.StringVar(value=fng.fondo_pantalla("tipo"))
+        self.tipo=tk.StringVar(value=fng.buscar_doc2("tipo_fondo"))
         self.tipo_inicial=self.tipo.get()
-        self.valor=tk.StringVar(value=fng.fondo_pantalla())
+        self.valor=tk.StringVar(value=fng.buscar_doc2("fondo_pantalla"))
         self.titulo1 = titulo(self.wn, 10, 10, "FONDO DE PANTALLA").medida(330,30)
 
         ey=40 #espacio en el eje y (vertical)
@@ -345,8 +348,9 @@ class vnt():
 
                 if color != "":
                     ventana.config(bg=color)
-                    fng.cambiar_dato("./documentos/data2.txt",1,color)
-                    fng.cambiar_dato("./documentos/data2.txt",2,"color")
+                    fng.cambiar_doc2("tipo_fondo","color")
+                    fng.cambiar_doc2("fondo_pantalla",color)
+                    
                     
                 self.wn.destroy()
                 verificar_imagen()
@@ -365,16 +369,16 @@ class vnt():
                     confirmacion=messagebox.askyesnocancel("CONFIRMACIÓN",
                     "Para que los cambios se hagan vivibles necesita reiniciar manualmente el programa ¿Esta seguro que quiere realizar el cambio?")
                     if confirmacion == True:
-                        fng.cambiar_dato("./documentos/data2.txt",1,imagen)
-                        fng.cambiar_dato("./documentos/data2.txt",2,"imagen")
+                        fng.cambiar_doc2("tipo_fondo","imagen")
+                        fng.cambiar_doc2("fondo_pantalla",imagen)
                         self.wn.destroy()
                         self.ventana_fondo(ventana)     
 
             
             elif (tipo_fondo == "black" or tipo_fondo == "white" or tipo_fondo == "grey") and self.tipo.get() == "color":
                 ventana.config(bg=tipo_fondo)
-                fng.cambiar_dato("./documentos/data2.txt",1,tipo_fondo)
-                fng.cambiar_dato("./documentos/data2.txt",2,"color")
+                fng.cambiar_doc2("tipo_fondo","color")
+                fng.cambiar_doc2("fondo_pantalla",tipo_fondo)
                 self.wn.destroy()
                 verificar_imagen()
                 self.ventana_fondo(ventana)
