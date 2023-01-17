@@ -6,8 +6,9 @@ import funciones.funcionesGenerales as fng
 
 #CLASE QUE GENERA UNA CONEXIÓN CON MYSQL
 class conexion_msql():
-    def __init__(self, pedido=""):
+    def __init__(self,clase_pedido = "leer",  pedido=""):
         self.data=[]
+        self.clase_pedido = clase_pedido
         try:
             clave='MgB1Q9529nub9HEjggLr'
             usuario='urd2jbllb60jvsko'
@@ -26,9 +27,12 @@ class conexion_msql():
     def solicitud(self, comando):
         cursor=self.conexion.cursor()
         cursor.execute(comando)
-        
-        for i in cursor:
-            self.data.append(list(i))
+        if self.clase_pedido == "leer":
+            for dato in cursor:
+                self.data.append(list(dato))
+        elif self.clase_pedido == "insertar":
+            self.conexion.commit()
+
     
     def verificar_data(self):
         if self.data == []:
@@ -39,7 +43,14 @@ class conexion_msql():
 # FUNCIONES PARA LEER DATOS
 
 def verificar_contraseña(contra):
-    return conexion_msql(f'''CALL buscar_contraseña('{contra}')''').verificar_data()
+    return conexion_msql(pedido=f'''CALL buscar_contraseña('{contra}')''').verificar_data()
+
+def recibir_datos_tabla(fecha = None):
+    m='''SELECT * FROM Trayectoria_Vehículo '''
+    if fecha != None:
+        m+=f'''WHERE dia_salida = '{fecha}' '''
+    m+=''';'''
+    return conexion_msql(pedido=m).verificar_data()
 
 
 # FUNCIONES PARA AGREGAR DATOS
@@ -47,9 +58,8 @@ def verificar_contraseña(contra):
 def enviar_datos_tabla():
     lista_datos = fng.doc().operacion("L")
     pedido = ''''''
-    for dato in lista_datos:
-        pedido+=f'''INSERT INTO `Trayectoria_Vehículo` (`ID_Vehiculo`, `Ruta`, `ID_Chofer`, `Hora_Salida`, `dia_salida`, `marca_1`, `vel_1`, `marca_2`, `vel_2`, `marca_3`, `vel_3`, `marca_llegada`) 
-                                           VALUES ('{dato[1]},'{dato[2]}','{dato[3]}','{dato[4]}','{dato[5]}','{dato[6]}','{dato[7]}','{dato[8]}','{dato[9]}','{dato[10]}','{dato[11]}','{dato[12]}');'''
-        
-    conexion_msql(pedido).verificar_data()
-
+    for linea in lista_datos:
+        pedido+=f'''INSERT INTO `Trayectoria_Vehículo` (`ID_Vehiculo`, `Ruta`, `ID_Chofer`, `Hora_Salida`, `dia_salida`, `marca_1`, `vel_1`, `marca_2`, `vel_2`, `marca_3`, `vel_3`,`marca_llegada`) 
+                VALUES ({linea[1]},'{linea[2]}',{linea[3]},'{linea[4]}','{linea[5]}','{linea[6]}',{linea[7]},'{linea[8]}',{linea[9]},'{linea[10]}','{linea[11]}','{linea[12]}');'''
+        print(pedido)
+    conexion_msql("insertar",pedido)

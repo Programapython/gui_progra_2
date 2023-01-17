@@ -3,6 +3,7 @@ import pylatex as ptx
 import webbrowser as wb
 import fpdf
 import shutil
+import funciones.conec_mysql as conec
 
 # ------------------------------------------------------------------------------------------------------------------
 """##############################################################################################################"""
@@ -149,8 +150,11 @@ def cambiar_doc2(encabezado, nuevo_valor):
     doc("./documentos/data2.txt").operacion("E",contenido_data)
 
 def finalizar_op():
+    #ENVIA LOS DATOS CONTENIDOS EN EL ARCHIVO DATA A LA BASE DE DATOS
+    conec.enviar_datos_tabla()
     # BORRA LOS DATOS DE DATA PARA QUE MUESTRE SOLO ENCABEZADOS
-    doc().operacion("E",[['ID_SALIDA','ID_VEHICULO','RUTA','CHOFER','HORA_SALIDA','DIA_SALIDA','MARCA_1','VEL_1','MARCA_2','VEL_2','MARCA_3','VEL_3','MARCA_LLEGADA']])
+    doc().operacion("E",
+        [['ID_SALIDA','ID_VEHICULO','RUTA','CHOFER','HORA_SALIDA','DIA_SALIDA','MARCA_1','VEL_1','MARCA_2','VEL_2','MARCA_3','VEL_3','MARCA_LLEGADA']])
     # COLOCAR EL CONTADOR DE LOS MAPAS EN CERO
     cambiar_doc2("numero_mapas","0")
     # COLOCAR EL CONTADOR DE NUMERO DE SALIDAS EN CERO

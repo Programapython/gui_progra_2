@@ -1,6 +1,6 @@
-numero_mapas,74
-fondo_pantalla,grey
-color_fondo,grey
+numero_mapas,0
+fondo_pantalla,#f5790a
+color_fondo,#f5790a
 tipo_fondo,color
-numero_salidas,2
+numero_salidas,0
 tipo_mapa,con_capas
