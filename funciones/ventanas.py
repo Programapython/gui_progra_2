@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox, colorchooser, filedialog
 import funciones.funcionesGenerales as fng
+import funciones.mapa as mapa
 import funciones.conec_mysql as conec
 import time
 
@@ -49,22 +50,23 @@ class cuadro_editor():
 
 #CLASE QUE GENERA UN RADIOBOTON
 class radio_caja_boton():
+
     def __init__(self, op, ventana, texto, pox=0,poy=0, base=100, altura=20, variable=None, valor=None):
         if op == "radio":
             self.elemento=tk.Radiobutton(ventana,
                             text=texto,
                             variable=variable,
                             value=valor,
-                            background="grey", 
-                            activebackground="grey",
+                            background=fng.buscar_doc2("color_fondo"), 
+                            activebackground=fng.buscar_doc2("color_fondo"),
                             anchor="w", 
                             activeforeground="red")
         elif op == "caja":
             self.elemento=tk.Checkbutton(ventana,
                             text=texto,
                             variable=variable,
-                            background="grey", 
-                            activebackground="grey",
+                            background=fng.buscar_doc2("color_fondo"), 
+                            activebackground=fng.buscar_doc2("color_fondo"),
                             anchor="w", 
                             activeforeground="red")
 
@@ -215,7 +217,6 @@ class ventana_agregar_datos(ventana_base):
         #TABLA
         titulo(self.wn, 450, 20, "VISTA PREVIA").medida(400,30)
         self.Tabla=table(self.wn, 4, ['ID_VEHICULO','RUTA','CHOFER','HORA'], False)
-        print(datos_anteriores)
         if len(datos_anteriores) != 0:
             for valor in datos_anteriores:
                 self.lista_datos.append(valor)
@@ -350,6 +351,7 @@ class vnt():
                     ventana.config(bg=color)
                     fng.cambiar_doc2("tipo_fondo","color")
                     fng.cambiar_doc2("fondo_pantalla",color)
+                    fng.cambiar_doc2("color_fondo",color)
                     
                     
                 self.wn.destroy()
@@ -371,6 +373,7 @@ class vnt():
                     if confirmacion == True:
                         fng.cambiar_doc2("tipo_fondo","imagen")
                         fng.cambiar_doc2("fondo_pantalla",imagen)
+                        fng.cambiar_doc2("color_fondo","grey")
                         self.wn.destroy()
                         self.ventana_fondo(ventana)     
 
@@ -379,6 +382,7 @@ class vnt():
                 ventana.config(bg=tipo_fondo)
                 fng.cambiar_doc2("tipo_fondo","color")
                 fng.cambiar_doc2("fondo_pantalla",tipo_fondo)
+                fng.cambiar_doc2("color_fondo",tipo_fondo)
                 self.wn.destroy()
                 verificar_imagen()
                 self.ventana_fondo(ventana)
@@ -399,26 +403,23 @@ class vnt():
     def terminar_op(self):
         desicion=messagebox.askyesnocancel(title="TERMINAR OPERACIONES", 
         message="¿Seguro que desea terminar las operaciones?")
-        if desicion == "yes":
+        if desicion == True:
             fng.finalizar_op()
+    
+    def ventana_modificar_mapas(self):
+        self.vnt = ventana_base("300x230", "CONFIGURACIÓN MAPAS")
+        self.wn = self.vnt.return_tk()
+        self.titulo1 = titulo(self.wn, 10, 10, "MODIFICAR EL ASPECTO DE LOS MAPAS").medida(280,30)
+        self.tipo=tk.StringVar(value=fng.buscar_doc2("tipo_mapa"))
+        ey=40 #espacio en el eje y (vertical)
+        p0=50 #espacio en el eje y del primer elemento
+        radio_caja_boton("radio", self.wn, "Mapa normal", 25, p0, 200, 20, 
+            self.tipo, "normal").agregar_comando(lambda: fng.cambiar_doc2("tipo_mapa","normal"))
+        radio_caja_boton("radio", self.wn, "Mapa con capas", 25, p0+ey, 200, 20, 
+            self.tipo, "con_capas").agregar_comando(lambda: fng.cambiar_doc2("tipo_mapa","con_capas"))
+        radio_caja_boton("radio", self.wn, "Mapa con marcadores", 25, p0+2*ey, 200, 20, 
+            self.tipo, "con_marcador").agregar_comando(lambda: fng.cambiar_doc2("tipo_mapa","con_marcador"))
+        
+        boton(self.wn, "GENERA UN NUEVO MAPA", "grey", lambda: mapa.generar_mapa()).medida_posicion(240,30,p0+3*ey)
 
-'''
-CLASES DESECHADAS/INUTILIZADAS
-'''
-
-# #CLASE QUE GENERA UN FRAME EN LA VENTANA
-# class espacio():
-#     def __init__(self, wn, color, pox, poy, base=10, altura=10):
-#         self.frame=tk.Frame(wn, bg=color)
-#         self.frame.config(width=base, height=altura)
-#         self.frame.place(x=pox, y=poy)
-# ----------------------------------------------------
-# ----------------------------------------------------
-# ----------------------------------------------------
-# ----------------------------------------------------
-# #GENERA UNA SUBVENTANA
-# class subventana():
-#     def __init__(self, wn, color, pox, poy, base=10, altura=10):
-#         self.subv=wn.Toplevel(wn, bg=color)
-#         self.frame.config(width=base, height=altura)
-#         self.frame.place(x=pox, y=poy)
+        self.wn.mainloop()

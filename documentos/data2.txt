@@ -1,4 +1,6 @@
-numero_mapas,70
+numero_mapas,74
 fondo_pantalla,grey
+color_fondo,grey
 tipo_fondo,color
-numero_salidas,23
+numero_salidas,2
+tipo_mapa,con_capas

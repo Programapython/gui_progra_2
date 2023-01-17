@@ -1,3 +1,4 @@
+from tkinter import messagebox
 import pylatex as ptx
 import webbrowser as wb
 import fpdf
@@ -149,10 +150,11 @@ def cambiar_doc2(encabezado, nuevo_valor):
 
 def finalizar_op():
     # BORRA LOS DATOS DE DATA PARA QUE MUESTRE SOLO ENCABEZADOS
-    doc().operacion("E",[['ID_VEHICULO','RUTA','CHOFER','HORA_SALIDA','DIA_SALIDA','MARCA_1','VEL_1','MARCA_2','VEL_2','MARCA_3','VEL_3','MARCA_LLEGADA','ID_SALIDA']])
+    doc().operacion("E",[['ID_SALIDA','ID_VEHICULO','RUTA','CHOFER','HORA_SALIDA','DIA_SALIDA','MARCA_1','VEL_1','MARCA_2','VEL_2','MARCA_3','VEL_3','MARCA_LLEGADA']])
     # COLOCAR EL CONTADOR DE LOS MAPAS EN CERO
-    cambiar_doc2("numero_mapas",0)
-    cambiar_doc2("numero_salidas",0)
+    cambiar_doc2("numero_mapas","0")
+    # COLOCAR EL CONTADOR DE NUMERO DE SALIDAS EN CERO
+    cambiar_doc2("numero_salidas","0")
 
 def buscar_doc2(dato_buscado=None):
     datos_encabezados=doc("./documentos/data2.txt").operacion("LE")
