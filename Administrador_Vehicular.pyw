@@ -1,8 +1,10 @@
 import tkinter as tk
+import threading
 import funciones.funcionesGenerales as fng
 from PIL import ImageTk, Image
 from funciones.ventanas import *
 import funciones.mapa as mapa
+import funciones.conec_arduino as arduino
 
 #CLASE QUE INICIALIAZ LA VENTANA PRINCIPAL DE LA APLICACIÓN
 
@@ -101,9 +103,13 @@ class ventana(ventana_base):
         menu1.separador(1)
         menu1.titulos2(1,'Salir', self.wn.destroy)
         #----------------------------------------------------------------------------
-        menu1.titulos2(2,'Configurar mapas', lambda: vnt().ventana_modificar_mapas())
+        menu1.titulos2(2,'Generar informe')
+        menu1.titulos2(2,'Generar mapa', lambda: mapa.generar_mapa())
         #----------------------------------------------------------------------------
         menu1.titulos2(3,'Modificar apariencia',lambda: vnt().ventana_fondo(self.wn))
+        menu1.titulos2(3,'Configurar mapas', lambda: vnt().ventana_modificar_mapas())
+        menu1.separador(3)
+        menu1.titulos2(3,'Configurar conexion arduino', lambda: vnt().ventana_modificar_mapas())
         #----------------------------------------------------------------------------
         menu1.titulos2(4, 'Ayuda')
         menu1.separador(4)
@@ -114,5 +120,11 @@ class ventana(ventana_base):
 
 
 # EJECUCUIÓN DE LA INTERFAZ
+def generar_app():
+    vn = ventana()
+
 if __name__ == "__main__":
-    vn=ventana()
+    hilo_app = threading.Thread(target=generar_app)
+    hilo_app.start()
+    # hilo_arduino = threading.Thread(target=arduino, daemon=True)
+    # hilo_arduino.start()

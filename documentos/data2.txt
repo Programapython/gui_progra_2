@@ -1,6 +1,7 @@
-numero_mapas,0
+numero_mapas,1
 fondo_pantalla,#f5790a
 color_fondo,#f5790a
 tipo_fondo,color
 numero_salidas,0
 tipo_mapa,con_capas
+nombre_puerto_arduino,COM4
