@@ -109,7 +109,7 @@ class table():
         else:
             self.tbl.place(x=pox, y=poy)
     
-    def seleccionar(self):
+    def mostrar_data(self):
         pass
 
     def tkframe(self):

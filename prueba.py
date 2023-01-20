@@ -34,10 +34,12 @@
 #     #     print('no inicio')
 #     if a==bool:
 #         print("cadena")
-import funciones.conec_arduino as conec
-import threading
-# print(conec.recibir_datos_tabla('2023-01-16'))
-print("hola mundo")
-hilo1=threading.Thread(target=conec.imprime)
-hilo1.start()
-print("chao mundo")
+# import funciones.conec_arduino as conec
+# import threading
+# # print(conec.recibir_datos_tabla('2023-01-16'))
+# print("hola mundo")
+# hilo1=threading.Thread(target=conec.imprime)
+# hilo1.start()
+# print("chao mundo")
+import funciones.conec_arduino as arduino
+arduino.c_arduino().asignar_hora_salida()
