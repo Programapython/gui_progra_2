@@ -123,8 +123,11 @@ class ventana(ventana_base):
 def generar_app():
     vn = ventana()
 
+def leer_arduino():
+    arduino.c_arduino().leer_llegada()
+
 if __name__ == "__main__":
     hilo_app = threading.Thread(target=generar_app)
     hilo_app.start()
-    # hilo_arduino = threading.Thread(target=arduino, daemon=True)
-    # hilo_arduino.start()
+    hilo_arduino = threading.Thread(target=leer_arduino, daemon=True)
+    hilo_arduino.start()

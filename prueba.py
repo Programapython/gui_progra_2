@@ -44,13 +44,58 @@
 
 
 # import funciones.conec_arduino as arduino
-# arduino.c_arduino().asignar_hora_salida()
+# arduino.c_arduino()
+# import funciones.funcionesGenerales as fng
+# import funciones.conec_mysql as mysql
+# from datetime import datetime
+# # a=mysql.recibir_datos_tabla()[1][4]
+# # b=datetime.strftime(a, '%Y/%m/%d')
+# # print(b)
+# fng.crear_doc()
 
-import funciones.funcionesGenerales as fng
-import funciones.conec_mysql as mysql
-from datetime import datetime
-# a=mysql.recibir_datos_tabla()[1][4]
-# b=datetime.strftime(a, '%Y/%m/%d')
-# print(b)
-fng.crear_doc()
+import serial
+import time
+
+# f = input('¿Finalizar o ruta?: ')
+
+# cont = 0
+
+# unidades = serial.Serial("COM16", 9600)
+# time.sleep(0.5)
+
+# while True:
+   
+#     if f == 'ruta':
+#         n = int(input("ingrese la ruta : "))
+#         if n == 1:
+#             cont +=1
+#             print(cont)
+#             while (cont <=1):
+#                 unidades.write('1'.encode())
+#                 time.sleep(0.1)
+
+#         if n == 2:
+
+#             cont +=1
+#             print(cont)
+#         while (cont <=1):
+#             unidades.write('2'.encode())
+#             time.sleep(0.1)
+
+#     if f == 'finalizar':
+#         cont +=1
+#         print(cont)
+#         while (cont <=1):
+#             unidades.write('0'.encode())
+#             time.sleep(0.1)
+a=serial.Serial("COM16",9600)
+time.sleep(0.5)
+i=1
+for i in range(2):
+    a.write(str(i).encode())
+    if i == 1:
+        pass
+    input("djashdj")
+    
+
 

@@ -1,4 +1,4 @@
-numero_mapas,1
+numero_mapas,2
 fondo_pantalla,#00ff40
 color_fondo,#00ff40
 tipo_fondo,color
