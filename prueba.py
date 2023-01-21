@@ -41,5 +41,13 @@
 # hilo1=threading.Thread(target=conec.imprime)
 # hilo1.start()
 # print("chao mundo")
-import funciones.conec_arduino as arduino
-arduino.c_arduino().asignar_hora_salida()
+
+
+# import funciones.conec_arduino as arduino
+# arduino.c_arduino().asignar_hora_salida()
+
+import funciones.funcionesGenerales as fng
+import funciones.conec_mysql as mysql
+# print(mysql.recibir_datos_tabla()[1])
+fng.crear_doc()
+

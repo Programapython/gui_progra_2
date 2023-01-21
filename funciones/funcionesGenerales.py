@@ -157,7 +157,7 @@ class crear_doc():
         pdf.set_font("Arial",size=12)
         pdf.cell(200,10,txt="Prueba1",border=True,ln=3, align="C")
         pdf.output(dest='F',name="./documentos/informes/hola.pdf")
-        # shutil.move("./documentos/hola.pdf",buscar_doc2("dirección_informes"))
+        shutil.move("./documentos/informes/hola.pdf", buscar_doc2("direccion_informe"))
 
 
 # ------------------------------------------------------------------------------------------------------------------
