@@ -48,6 +48,9 @@
 
 import funciones.funcionesGenerales as fng
 import funciones.conec_mysql as mysql
-# print(mysql.recibir_datos_tabla()[1])
+from datetime import datetime
+# a=mysql.recibir_datos_tabla()[1][4]
+# b=datetime.strftime(a, '%Y/%m/%d')
+# print(b)
 fng.crear_doc()
 

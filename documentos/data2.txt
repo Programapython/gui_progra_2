@@ -5,5 +5,5 @@ tipo_fondo,color
 numero_salidas,1
 tipo_mapa,con_capas
 nombre_puerto_arduino,COM16
-direccion_informe,C:/Users/USUARIO/Documents/Adobe
+direccion_informe,C:\Users\USUARIO\Saved Games
 vehiculos_informe,Todos

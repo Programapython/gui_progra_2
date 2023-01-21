@@ -155,9 +155,12 @@ class crear_doc():
         pdf=fpdf.FPDF()
         pdf.add_page()
         pdf.set_font("Arial",size=12)
-        pdf.cell(200,10,txt="Prueba1",border=True,ln=3, align="C")
+        pdf.cell(200,10,txt="Informe",border=True, ln=3, align="C")
+        pdf.cell(200,10, txt="Fecha de solicitud:", align="left")
+        pdf.cell(200,10, txt="Fecha solicitada: ", align="left")
+        pdf.cell(200,10, txt="Unidad (es) buscadas:", align="left")
         pdf.output(dest='F',name="./documentos/informes/hola.pdf")
-        shutil.move("./documentos/informes/hola.pdf", buscar_doc2("direccion_informe"))
+        shutil.copy("./documentos/informes/hola.pdf", buscar_doc2("direccion_informe"))
 
 
 # ------------------------------------------------------------------------------------------------------------------
