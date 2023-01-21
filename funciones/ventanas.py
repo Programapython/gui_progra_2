@@ -306,19 +306,37 @@ class vnt():
         self.wn.mainloop()
     
     def generar_pdf(self):
-        self.vnt = ventana_base("300x300", "GENERAR REPORTE")
+
+        def cambiar_direccion():
+            direccion=filedialog.askdirectory(title="ELIGE UNA NUEVA CARPETA",
+                                    initialdir=fng.buscar_doc2("direccion_informes"))
+            self.carpeta.set(direccion)
+        
+        def nuevo_informe():
+            fng.cambiar_doc2("direccion_informes", self.carpeta.get())
+            fng.cambiar_doc2("vehiculos_informe", self.seleccion.get())
+            fng.crear_doc()
+            messagebox.showinfo(title="ARCHIVO CREADO", 
+                                message="El archivo fue creado con exito, revise la carpeta seleccionada")
+            self.wn.destroy()
+
+        self.vnt = ventana_base("300x330", "GENERAR REPORTE")
+        self.carpeta=tk.StringVar(value=fng.buscar_doc2("direccion_informe"))
+        self.seleccion=tk.StringVar(value=fng.buscar_doc2("vehiculos_informe"))
+        
         self.wn = self.vnt.return_tk()
         self.titulo1 = titulo(self.wn, 10, 10, "GENERAR PDF").medida(100,30)
         ey=40 #espacio en el eje y (vertical)
         p0=50 #espacio en el eje y del primer elemento
         self.titulo2 = titulo(self.wn, 20, p0, "VEHÍCULO").medida(260,30)
-        self.cuadro1 = cuadro_editor(self.wn, 25, p0+ey, 120, 30)
-        self.boton1 = boton(self.wn, "TODOS", "grey").medida_posicion(125,150,p0+ey)
+        self.cuadro1 = cuadro_editor(self.wn, 25, p0+ey, 120, 30, self.seleccion)
+        self.boton1 = boton(self.wn, "TODOS", "grey", lambda: self.seleccion.set("Todos")).medida_posicion(125,150,p0+ey)
         self.titulo2 = titulo(self.wn, 20, p0+2*ey, "FECHA").medida(260,30)
         self.cuadro2 = cuadro_editor(self.wn, 25, p0+3*ey, 250, 30)
         self.titulo3 = titulo(self.wn, 20, p0+4*ey, "CARPETA").medida(260,30)
-        self.cuadro3 = cuadro_editor(self.wn, 25, p0+5*ey, 120, 30)
-        self.boton1 = boton(self.wn, "CAMBIAR", "grey").medida_posicion(125,150,p0+5*ey)
+        self.cuadro3 = cuadro_editor(self.wn, 25, p0+5*ey, 120, 30,self.carpeta)
+        self.boton2 = boton(self.wn, "CAMBIAR", "grey",cambiar_direccion).medida_posicion(125,150,p0+5*ey)
+        self.boton3 = boton(self.wn, "GENERAR PDF", "grey", nuevo_informe).medida_posicion(240,30,p0+6*ey)
         
         self.wn.mainloop()
     

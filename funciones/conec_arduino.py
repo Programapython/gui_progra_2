@@ -11,7 +11,7 @@ class c_arduino():
         data_vehiculo=fng.doc().operacion("L")[vehiculo-1]
         hora_asignada=data_vehiculo[4]
         print(hora_asignada)
-        self.conec.write(hora_asignada.encode("ascii"))
+        self.conec.write("hora_asignada".encode("ascii"))
         time.sleep(5)
         self.conec.close()
 

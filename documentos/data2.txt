@@ -1,7 +1,9 @@
 numero_mapas,1
-fondo_pantalla,#f5790a
-color_fondo,#f5790a
+fondo_pantalla,#00ff40
+color_fondo,#00ff40
 tipo_fondo,color
 numero_salidas,1
 tipo_mapa,con_capas
 nombre_puerto_arduino,COM16
+direccion_informe,C:/Users/USUARIO/Documents/Adobe
+vehiculos_informe,Todos

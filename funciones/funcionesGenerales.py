@@ -5,58 +5,6 @@ import fpdf
 import shutil
 import funciones.conec_mysql as conec
 
-# ------------------------------------------------------------------------------------------------------------------
-"""##############################################################################################################"""
-class crear_doc():
-    def __init__(self):
-        pdf=fpdf.FPDF()
-        pdf.add_page()
-        pdf.set_font("Arial",size=12)
-        pdf.cell(200,10,txt="Prueba1",border=True,ln=3, align="C")
-        pdf.output(dest='F',name="E:/USUARIO/GUSTAVO/Documentos2/UNIVERSIDAD_CICLO_IV/PROGRAMACIÓN_II")
-        shutil.move("./documentos/hola.pdf","E:/USUARIO/GUSTAVO/Documentos2/UNIVERSIDAD_CICLO_IV/PROGRAMACIÓN_II")
-
-
-# ------------------------------------------------------------------------------------------------------------------
-"""##############################################################################################################"""
-# ------------------------------------------------------------------------------------------------------------------
-"""##############################################################################################################"""
-
-# from pylatex import Document, section, Subsection, 
-
-#FUNCION QUE CREA UN DOCUMENTO PDF
-
-# nuevo_documento=Document()
-# nuevo_documento.generate_pdf()
-
-# from pylatex import Document, Section, Subsection
-# from pylatex.utils import italic, NoEscape
-
-
-# def fill_document(doc):
-#     """Add a section, a subsection and some text to the document.
-
-#     :param doc: the document
-#     :type doc: :class:`pylatex.document.Document` instance
-#     """
-#     with doc.create(Section('A section')):
-#         doc.append('Some regular text and some ')
-#         doc.append(italic('italic text. '))
-
-#         with doc.create(Subsection('A subsection')):
-#             doc.append('Also some crazy characters: $&#{}')
-
-
-# if __name__ == '__main__':
-#     # Basic document
-#     doc = Document('basic')
-#     fill_document(doc)
-
-#     doc.generate_pdf(filepath="hola",clean_tex=True, compiler="pdflatex", clean=True)
-
-# ------------------------------------------------------------------------------------------------------------------
-"""##############################################################################################################"""
-
 class convert():
     def __init__(self, arg= None):
         self.arg = arg
@@ -199,3 +147,55 @@ class abre():
         #CIERRA LA VENTANA DE TKINTER QUE NOS REDIRECCIONA AL ENLACE
         if ventana != None:
             ventana.destroy()
+
+# ------------------------------------------------------------------------------------------------------------------
+"""##############################################################################################################"""
+class crear_doc():
+    def __init__(self):
+        pdf=fpdf.FPDF()
+        pdf.add_page()
+        pdf.set_font("Arial",size=12)
+        pdf.cell(200,10,txt="Prueba1",border=True,ln=3, align="C")
+        pdf.output(dest='F',name="./documentos/informes/hola.pdf")
+        # shutil.move("./documentos/hola.pdf",buscar_doc2("dirección_informes"))
+
+
+# ------------------------------------------------------------------------------------------------------------------
+"""##############################################################################################################"""
+# ------------------------------------------------------------------------------------------------------------------
+"""##############################################################################################################"""
+
+# from pylatex import Document, section, Subsection, 
+
+#FUNCION QUE CREA UN DOCUMENTO PDF
+
+# nuevo_documento=Document()
+# nuevo_documento.generate_pdf()
+
+# from pylatex import Document, Section, Subsection
+# from pylatex.utils import italic, NoEscape
+
+
+# def fill_document(doc):
+#     """Add a section, a subsection and some text to the document.
+
+#     :param doc: the document
+#     :type doc: :class:`pylatex.document.Document` instance
+#     """
+#     with doc.create(Section('A section')):
+#         doc.append('Some regular text and some ')
+#         doc.append(italic('italic text. '))
+
+#         with doc.create(Subsection('A subsection')):
+#             doc.append('Also some crazy characters: $&#{}')
+
+
+# if __name__ == '__main__':
+#     # Basic document
+#     doc = Document('basic')
+#     fill_document(doc)
+
+#     doc.generate_pdf(filepath="hola",clean_tex=True, compiler="pdflatex", clean=True)
+
+# ------------------------------------------------------------------------------------------------------------------
+"""##############################################################################################################"""
