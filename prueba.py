@@ -53,8 +53,9 @@
 # # print(b)
 # fng.crear_doc()
 
-import serial
-import time
+import funciones.conec_arduino as ard
+
+ard.c_arduino().asignar_hora_salida()
 
 # f = input('¿Finalizar o ruta?: ')
 
@@ -88,14 +89,17 @@ import time
 #         while (cont <=1):
 #             unidades.write('0'.encode())
 #             time.sleep(0.1)
-a=serial.Serial("COM16",9600)
-time.sleep(0.5)
-i=1
-for i in range(2):
-    a.write(str(i).encode())
-    if i == 1:
-        pass
-    input("djashdj")
-    
-
+# a=serial.Serial("COM16",9600)
+# time.sleep(0.5)
+# i=1
+# for i in range(2):
+#     a.write(str(i).encode())
+#     if i == 1:
+#         pass
+#     input("djashdj")
+# a=serial.Serial("COM16",9600)
+# time.sleep(2)
+# for i in range(10):
+#     time.sleep(2)
+#     a.write(f"12:{i}".encode("ascii"))
 

@@ -3,6 +3,7 @@ import pylatex as ptx
 import webbrowser as wb
 import fpdf
 import shutil
+import time
 import funciones.conec_mysql as conec
 
 class convert():
@@ -124,6 +125,14 @@ def agregar_nueva_salida(data_ingresada):
     
     cambiar_doc2("numero_salidas",str(n_salida))
     doc().operacion("soloE",nuevas_salidas)
+
+def modificar_salida(id_salida):
+    datos_salida=doc().operacion("LE")
+    for salida in datos_salida:
+        if salida[0] == id_salida:
+            salida.append(time.strftime('%H:%M:%S'))
+            doc().operacion("E",datos_salida)
+            break
 
 """##############################################################################################################"""
 # ------------------------------------------------------------------------------------------------------------------

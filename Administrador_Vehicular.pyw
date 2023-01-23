@@ -124,7 +124,8 @@ def generar_app():
     vn = ventana()
 
 def leer_arduino():
-    arduino.c_arduino().leer_llegada()
+    while True:
+        arduino.c_arduino().leer_llegada()
 
 if __name__ == "__main__":
     hilo_app = threading.Thread(target=generar_app)
