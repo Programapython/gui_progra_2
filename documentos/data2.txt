@@ -2,8 +2,9 @@ numero_mapas,2
 fondo_pantalla,#00ff40
 color_fondo,#00ff40
 tipo_fondo,color
-numero_salidas,1
+numero_salidas,0
 tipo_mapa,con_capas
 nombre_puerto_arduino,COM16
 direccion_informe,C:\Users\USUARIO\Saved Games
 vehiculos_informe,Todos
+operaciones_iniciadas,no

@@ -3,7 +3,8 @@ from tkinter import ttk
 from tkinter import messagebox, colorchooser, filedialog
 import funciones.funcionesGenerales as fng
 import funciones.mapa as mapa
-import funciones.conec_mysql as conec
+import funciones.conec_mysql as mysql
+import funciones.conec_arduino as ardu
 import time
 
 
@@ -249,16 +250,23 @@ class ventana_agregar_datos(ventana_base):
     def verificar_acceso(self):
         
         def comprobar_contraseña():
-            if conec.verificar_contraseña(self.vnt2.retorna_contra())==[[1]]:
+            if mysql.verificar_contraseña(self.vnt2.retorna_contra())==[[1]]:
                 self.vnt2.return_tk().destroy()
                 for dato in self.lista_datos:
                     self.tablaexterna.agregar_datos(dato)
                 fng.agregar_nueva_salida(self.lista_datos)
+                time.sleep(1)
+                fng.cambiar_doc2("operaciones_iniciadas","no")
+                ardu.c_arduino().asignar_hora_salida()
                 self.wn.destroy()
+                time.sleep(5)
+                fng.cambiar_doc2("operaciones_iniciadas","si")
+
             elif self.vnt2.retorna_contra()=="":
                 messagebox.showinfo(message="Ingrese un valor válido", title="SIN CONTRASEÑA")
                 self.vnt2.return_tk().destroy()
                 self.verificar_acceso()
+
             else:
                 messagebox.showerror(message="Ingrese un valor correcto", title="CONTRASEÑA INCORRECTA")
                 self.vnt2.return_tk().destroy()

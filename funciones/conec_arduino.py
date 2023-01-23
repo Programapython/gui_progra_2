@@ -1,6 +1,5 @@
 import funciones.funcionesGenerales as fng
 import serial
-import threading
 import time
 
 class c_arduino():
@@ -12,6 +11,7 @@ class c_arduino():
         hora_asignada=data_vehiculo[4]
         time.sleep(2)
         self.conec.write(hora_asignada.encode("ascii"))
+        self.conec.close()
     
     def leer_llegada(self):
         bandera_llegada=self.conec.readline()

@@ -125,7 +125,9 @@ def generar_app():
 
 def leer_arduino():
     while True:
-        arduino.c_arduino().leer_llegada()
+        if fng.buscar_doc2("operaciones_iniciadas") == "si":
+            print("estoy accediendo")
+            arduino.c_arduino().leer_llegada()
 
 if __name__ == "__main__":
     hilo_app = threading.Thread(target=generar_app)

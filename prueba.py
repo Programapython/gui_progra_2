@@ -53,10 +53,6 @@
 # # print(b)
 # fng.crear_doc()
 
-import funciones.conec_arduino as ard
-
-ard.c_arduino().asignar_hora_salida()
-
 # f = input('¿Finalizar o ruta?: ')
 
 # cont = 0
