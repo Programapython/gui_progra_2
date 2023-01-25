@@ -38,7 +38,7 @@ class dato():
     def __init__(self, wn, pox, poy, informacion, base=50, altura=30, fuente=("Tahoma", 15), fondo="cyan"):
         self.dt=tk.Label(wn, text=informacion, fg="black", bg=fondo, font = fuente)
         self.dt.place(x=pox, y=poy, width=base, height=altura)
-        
+
     def actualizar(self, nueva_informacion):
         self.dt["text"]=nueva_informacion
 
@@ -112,12 +112,12 @@ class table():
             self.tbl.grid(column=columna, row=fila, padx=10, pady=10)
         else:
             self.tbl.place(x=pox, y=poy)
-    
-    def mostrar_data(self):
-        pass
 
     def tkframe(self):
         return self.sp
+    
+    def tktable(self):
+        return self.tbl
 
 #CLASE QUE GENERA LA HORA Y LA FECHA DE LA APLICACIÓN
 class fecha_hora():
@@ -435,6 +435,36 @@ class vnt():
         if desicion == True:
             fng.finalizar_op()
     
+    def ventana_arduino(self):
+        self.vnt = ventana_base("400x130", "CONFIGURACIÓN DEL PUERTO")
+        self.wn = self.vnt.return_tk()
+
+        def cambiar_otro_puerto():
+            opcion=messagebox.askyesnocancel("CONFIRMACIÓN",
+                    "Esta seguro que desea cambiar a un puerto serial desconocido")
+            if opcion == True  and self.puerto.get() != "" and self.puerto.get() == None:
+                fng.cambiar_doc2("nombre_puerto_arduino",self.puerto.get())
+                self.wn.destroy()
+        
+        titulo(self.wn, 10, 10, "ELIGE EL PUERTO SERIAL DONDE ESTA CONECTADO ARDUINO").medida(380,30)
+        self.puerto=tk.StringVar(value=fng.buscar_doc2("nombre_puerto_arduino"))
+        ey=40 #espacio en el eje y (vertical)
+        p0=50 #espacio en el eje y del primer elemento
+        radio_caja_boton("radio", self.wn, "COM16", 20, p0, 100, 20, 
+            self.puerto, "COM16").agregar_comando(lambda: fng.cambiar_doc2("nombre_puerto_arduino","COM16"))
+        radio_caja_boton("radio", self.wn, "COM9", 150, p0, 100, 20, 
+            self.puerto, "COM9").agregar_comando(lambda: fng.cambiar_doc2("nombre_puerto_arduino","COM9"))
+        radio_caja_boton("radio", self.wn, "COM5", 280, p0, 100, 20, 
+            self.puerto, "COM5").agregar_comando(lambda: fng.cambiar_doc2("nombre_puerto_arduino","COM5"))
+        
+        boton(self.wn, "ESCOGER OTRO PUERTO", "grey", lambda:self.wn.geometry("400x170")).medida_posicion(200,100,p0+ey)
+
+        titulo(self.wn, 20, p0+2*ey, "NOMBRE DEL PUERTO").medida(150,30)
+        cuadro_editor(self.wn, 190, p0+2*ey, 70, 30, self.puerto)
+        boton(self.wn, "CAMBIAR", "grey",cambiar_otro_puerto).medida_posicion(100,280,p0+2*ey)
+
+        self.wn.mainloop()
+    
     def ventana_modificar_mapas(self):
         self.vnt = ventana_base("300x230", "CONFIGURACIÓN MAPAS")
         self.wn = self.vnt.return_tk()
@@ -450,5 +480,25 @@ class vnt():
             self.tipo, "con_marcador").agregar_comando(lambda: fng.cambiar_doc2("tipo_mapa","con_marcador"))
         
         boton(self.wn, "GENERA UN NUEVO MAPA", "grey", lambda: mapa.generar_mapa()).medida_posicion(240,30,p0+3*ey)
+
+        self.wn.mainloop()
+
+    def tabla_completa(self):
+        self.vnt = ventana_base("1220x244", "VENTANA DE INFORMACIÓN")
+        self.wn = self.vnt.return_tk()
+
+        self.Tabla=table(self.wn, 12, ['ID_VEHICULO','RUTA','CHOFER','HORA_SALIDA','DIA_SALIDA','MARCA_1','VEL_1','MARCA_2','VEL_2','MARCA_3','VEL_3','MARCA_LLEGADA'],
+                        False)
+
+        ladox = ttk.Scrollbar(self.wn, orient = 'horizontal', command= self.Tabla.tktable().xview)
+        ladox.grid(column=0, row = 1, sticky='ew')
+        ladoy = ttk.Scrollbar(self.wn, orient ='vertical', command = self.Tabla.tktable().yview)
+        ladoy.grid(column=1, row = 0, sticky='ns')
+
+        self.Tabla.tktable().configure(xscrollcommand = ladox.set, yscrollcommand = ladoy.set)
+
+        for i in fng.doc().operacion("L"):
+            self.Tabla.agregar_datos(i)
+        self.Tabla.tktable().grid(column=0, row = 0)
 
         self.wn.mainloop()

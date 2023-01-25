@@ -4,7 +4,7 @@ import time
 
 class c_arduino():
     def __init__(self):
-        self.conec=serial.Serial("COM16",9600)
+        self.conec=serial.Serial(fng.buscar_doc2("nombre_puerto_arduino"),9600)
 
     def asignar_hora_salida(self, vehiculo=1):
         data_vehiculo=fng.doc().operacion("L")[vehiculo-1]

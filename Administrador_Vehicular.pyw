@@ -78,7 +78,7 @@ class ventana(ventana_base):
 
     def tabla(self):
         self.Tabla=table(self.wn, 3, ['ID_VEHICULO','RUTA','CHOFER'])
-        boton(self.Tabla.tkframe(), 'VER DATOS COMPLETOS', 'grey').grid(1, 2)
+        boton(self.Tabla.tkframe(), 'VER DATOS COMPLETOS', 'grey', lambda: vnt().tabla_completa()).grid(1, 2)
         boton(self.Tabla.tkframe(), 'VER EN EL MAPA', 'grey', lambda: mapa.generar_mapa()).grid(1 , 3)
         boton(self.Tabla.tkframe(), 'TERMINAR LAS OPERACIONES', 'grey', lambda: vnt().terminar_op()).grid(1, 4)
         
@@ -127,7 +127,7 @@ class ventana(ventana_base):
         menu1.titulos2(3,'Modificar apariencia',lambda: vnt().ventana_fondo(self.wn))
         menu1.titulos2(3,'Configurar mapas', lambda: vnt().ventana_modificar_mapas())
         menu1.separador(3)
-        menu1.titulos2(3,'Configurar conexion arduino', lambda: vnt().ventana_modificar_mapas())
+        menu1.titulos2(3,'Configurar conexion arduino', lambda: vnt().ventana_arduino())
         #----------------------------------------------------------------------------
         menu1.titulos2(4, 'Ayuda')
         menu1.separador(4)

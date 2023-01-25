@@ -114,7 +114,6 @@ def buscar_doc2(dato_buscado=None):
     for encabezado_dato in datos_encabezados:
         if encabezado_dato[0] == dato_buscado:
             return encabezado_dato[1]
-            break
 
 def agregar_nueva_salida(data_ingresada):
     n_salida=buscar_doc2("numero_salidas")
@@ -171,43 +170,6 @@ class crear_doc():
         pdf.output(dest='F',name="./documentos/informes/hola.pdf")
         shutil.copy("./documentos/informes/hola.pdf", buscar_doc2("direccion_informe"))
 
-
-# ------------------------------------------------------------------------------------------------------------------
-"""##############################################################################################################"""
-# ------------------------------------------------------------------------------------------------------------------
-"""##############################################################################################################"""
-
-# from pylatex import Document, section, Subsection, 
-
-#FUNCION QUE CREA UN DOCUMENTO PDF
-
-# nuevo_documento=Document()
-# nuevo_documento.generate_pdf()
-
-# from pylatex import Document, Section, Subsection
-# from pylatex.utils import italic, NoEscape
-
-
-# def fill_document(doc):
-#     """Add a section, a subsection and some text to the document.
-
-#     :param doc: the document
-#     :type doc: :class:`pylatex.document.Document` instance
-#     """
-#     with doc.create(Section('A section')):
-#         doc.append('Some regular text and some ')
-#         doc.append(italic('italic text. '))
-
-#         with doc.create(Subsection('A subsection')):
-#             doc.append('Also some crazy characters: $&#{}')
-
-
-# if __name__ == '__main__':
-#     # Basic document
-#     doc = Document('basic')
-#     fill_document(doc)
-
-#     doc.generate_pdf(filepath="hola",clean_tex=True, compiler="pdflatex", clean=True)
 
 # ------------------------------------------------------------------------------------------------------------------
 """##############################################################################################################"""
