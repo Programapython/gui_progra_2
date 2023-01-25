@@ -159,17 +159,17 @@ class abre():
 # ------------------------------------------------------------------------------------------------------------------
 """##############################################################################################################"""
 class crear_doc():
-    def __init__(self):
+    def __init__(self, fecha_solicitada, *vehiculos_buscados):
         pdf=fpdf.FPDF()
         pdf.add_page()
         pdf.set_font("Arial",size=12)
-        pdf.cell(200,10,txt="Informe",border=True, ln=1, align="C")
-        pdf.cell(200,10, txt="Fecha de solicitud:",ln=1, align="left")
-        pdf.cell(200,10, txt="Fecha solicitada: ", ln=1, align="left")
-        pdf.cell(200,10, txt="Unidad (es) buscadas:", ln=6, align="left")
-        pdf.output(dest='F',name="./documentos/informes/hola.pdf")
-        shutil.copy("./documentos/informes/hola.pdf", buscar_doc2("direccion_informe"))
-
+        fecha=time.strftime('%Y-%m-%d')
+        pdf.cell(190,10,txt="INFORME",border=True, ln=1, align="C")
+        pdf.cell(200,10, txt=f"Fecha de solicitud: {fecha}",ln=1, align="left")
+        pdf.cell(200,10, txt=f"Fecha solicitada: {fecha_solicitada}", ln=1, align="left")
+        pdf.cell(200,10, txt=f"Unidad (es) buscadas: {vehiculos_buscados}", ln=6, align="left")
+        pdf.output(dest='F',name=f"./documentos/informes/{fecha}_{vehiculos_buscados}.pdf")
+        shutil.copy(f"./documentos/informes/{fecha}_{vehiculos_buscados}.pdf", buscar_doc2("direccion_informe"))
 
 # ------------------------------------------------------------------------------------------------------------------
 """##############################################################################################################"""
