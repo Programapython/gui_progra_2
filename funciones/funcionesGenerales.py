@@ -100,7 +100,7 @@ def cambiar_doc2(encabezado, nuevo_valor):
 
 def finalizar_op():
     #ENVIA LOS DATOS CONTENIDOS EN EL ARCHIVO DATA A LA BASE DE DATOS
-    conec.enviar_datos_tabla()
+    #conec.enviar_datos_tabla()
     # BORRA LOS DATOS DE DATA PARA QUE MUESTRE SOLO ENCABEZADOS
     doc().operacion("E",
         [['ID_SALIDA','ID_VEHICULO','RUTA','CHOFER','HORA_SALIDA','DIA_SALIDA','MARCA_1','VEL_1','MARCA_2','VEL_2','MARCA_3','VEL_3','MARCA_LLEGADA']])
@@ -170,6 +170,7 @@ class crear_doc():
         pdf.cell(200,10, txt=f"Unidad (es) buscadas: {vehiculos_buscados}", ln=6, align="left")
         pdf.output(dest='F',name=f"./documentos/informes/{fecha}_{vehiculos_buscados}.pdf")
         shutil.copy(f"./documentos/informes/{fecha}_{vehiculos_buscados}.pdf", buscar_doc2("direccion_informe"))
+
 
 # ------------------------------------------------------------------------------------------------------------------
 """##############################################################################################################"""
