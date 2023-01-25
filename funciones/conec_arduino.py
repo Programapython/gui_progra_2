@@ -9,6 +9,7 @@ class c_arduino():
     def asignar_hora_salida(self, vehiculo=1):
         data_vehiculo=fng.doc().operacion("L")[vehiculo-1]
         hora_asignada=data_vehiculo[4]
+        hora_asignada=hora_asignada[:2]
         time.sleep(2)
         self.conec.write(hora_asignada.encode("ascii"))
         self.conec.close()
