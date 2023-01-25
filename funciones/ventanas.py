@@ -26,7 +26,7 @@ class boton():
 
 #CLASE QUE GENERA CUADROS DE TEXTO ESTÁTICO 
 class titulo():
-    def __init__(self, wn, pox=0, poy=0, contenido = 'texto predefinido', colorL = 'cyan', colorC='black'):
+    def __init__(self, wn, pox=0, poy=0, contenido = 'sin contenido', colorL = 'cyan', colorC='black'):
         self.tl = tk.Label(wn, text = contenido ,fg = colorL, bg = colorC,)
         self.tl.place(x = pox, y = poy)
 
@@ -38,6 +38,9 @@ class dato():
     def __init__(self, wn, pox, poy, informacion, base=50, altura=30, fuente=("Tahoma", 15), fondo="cyan"):
         self.dt=tk.Label(wn, text=informacion, fg="black", bg=fondo, font = fuente)
         self.dt.place(x=pox, y=poy, width=base, height=altura)
+        
+    def actualizar(self, nueva_informacion):
+        self.dt["text"]=nueva_informacion
 
 #CLASE QUE GENERA CUADROS DE TEXTO PARA COMPLETAR
 class cuadro_editor():

@@ -30,6 +30,7 @@ class conexion_msql():
         if self.clase_pedido == "leer":
             for dato in cursor:
                 self.data.append(list(dato))
+
         elif self.clase_pedido == "insertar":
             self.conexion.commit()
 
@@ -51,6 +52,12 @@ def recibir_datos_tabla(fecha = None):
         m+=f'''WHERE dia_salida = '{fecha}' '''
     m+=''';'''
     return conexion_msql(pedido=m).verificar_data()
+
+def actualizar_info_vehiculos():
+    vh_totales = conexion_msql(pedido="SELECT COUNT(*) as total_vehiculos FROM Vehículo;").verificar_data()
+    vh_fuera_servicio = conexion_msql(pedido="SELECT COUNT(*) as total_vehiculos FROM Vehículo WHERE Estado = 3 GROUP BY Estado").verificar_data()
+    fng.cambiar_doc2("vh_totales",str(vh_totales[0][0]))
+    fng.cambiar_doc2("vh_fuera_servicio", str(vh_fuera_servicio[0][0]))
 
 
 # FUNCIONES PARA AGREGAR DATOS

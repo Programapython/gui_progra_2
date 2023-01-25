@@ -93,9 +93,11 @@
 #     if i == 1:
 #         pass
 #     input("djashdj")
+# import serial
+# import time
 # a=serial.Serial("COM16",9600)
 # time.sleep(2)
-# for i in range(10):
-#     time.sleep(2)
-#     a.write(f"12:{i}".encode("ascii"))
+# a.write("<--Albert-->".encode("ascii"))
+import funciones.conec_mysql as mysql 
+mysql.actualizar_info_vehiculos()
 

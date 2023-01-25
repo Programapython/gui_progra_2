@@ -5,6 +5,7 @@ from PIL import ImageTk, Image
 from funciones.ventanas import *
 import funciones.mapa as mapa
 import funciones.conec_arduino as arduino
+import funciones.conec_mysql as mysql
 
 #CLASE QUE INICIALIAZ LA VENTANA PRINCIPAL DE LA APLICACIÓN
 
@@ -28,6 +29,7 @@ class ventana(ventana_base):
         self.botones()
         self.titulos()
         self.datos()
+        self.actualizar_datos_mostrados()
         self.tiempo()
         self.tabla()
         self.menu()
@@ -50,11 +52,26 @@ class ventana(ventana_base):
         titulo(self.wn, 425, 275, "N° UNIDADES DETENIDAS").medida(200, 30)
     
     def datos(self):
-        dato(self.wn, 630, 135, "")
-        dato(self.wn, 630, 170, "")
-        dato(self.wn, 630, 206, "")
-        dato(self.wn, 630, 240, "")
-        dato(self.wn, 630, 275, "")
+
+        self.dato1=dato(self.wn, 630, 135, "")
+        self.dato2=dato(self.wn, 630, 170, "")
+        self.dato3=dato(self.wn, 630, 206, "")
+        self.dato4=dato(self.wn, 630, 240, "")
+        self.dato5=dato(self.wn, 630, 275, "")
+
+    
+    def actualizar_datos_mostrados(self):
+        veh = len(fng.doc().operacion("L"))
+        veh_totales = fng.buscar_doc2("vh_totales")
+        veh_fuera = fng.buscar_doc2("vh_fuera_servicio")
+
+        self.dato1.actualizar(str(veh))
+        self.dato2.actualizar(str(int(veh_totales)-veh-int(veh_fuera)))
+        self.dato3.actualizar(veh_fuera)
+        self.dato4.actualizar(veh_totales)
+
+        self.wn.after(1000, self.actualizar_datos_mostrados)
+        
 
     def tiempo(self):
         fecha_hora(self.wn)
@@ -98,6 +115,7 @@ class ventana(ventana_base):
         menu1.titulos2(1,'Modo oscuro', lambda: self.wn.config(bg='grey'))
         menu1.titulos2(1,'Modo claro', lambda: self.wn.config(bg='white'))
         menu1.separador(1)
+        menu1.titulos2(1,'Actualizar información', lambda: mysql.actualizar_info_vehiculos())
         menu1.titulos2(1,'Terminar operaciones', terminar_op, 'Ctrl+T')
         self.wn.bind_all("<Control-t>", terminar_op)
         menu1.separador(1)
