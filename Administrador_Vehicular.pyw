@@ -39,7 +39,7 @@ class ventana(ventana_base):
     def botones(self):
         boton(self.wn,  "VER UNIDADES DETENIDAS", "dodger blue2").medida_posicion(200, 425, 310)
         boton(self.wn, "GENERAR REPORTE", "gold", lambda: vnt().generar_pdf()).medida_posicion(200, 425, 345)
-        boton(self.wn, "EMITIR ALERTA VEHICULAR", "red").medida_posicion(200, 425, 380)
+        boton(self.wn, "EMITIR ALERTA VEHICULAR", "red", lambda: vnt().conexion_whatsapp()).medida_posicion(200, 425, 380)
         boton(self.wn, "INICIAR OPERACIONES", "lawn green",lambda: ventana_agregar_datos(tablaexterna=self.Tabla).mainloop()).medida_posicion(200, 425, 415) 
     
     def titulos(self):

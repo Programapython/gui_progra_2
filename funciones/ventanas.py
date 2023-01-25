@@ -1,10 +1,12 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox, colorchooser, filedialog
+from tkinter.ttk import Combobox
 import funciones.funcionesGenerales as fng
 import funciones.mapa as mapa
 import funciones.conec_mysql as mysql
 import funciones.conec_arduino as ardu
+import funciones.conec__wsp as msg
 import time
 
 
@@ -349,6 +351,32 @@ class vnt():
         self.boton2 = boton(self.wn, "CAMBIAR", "grey",cambiar_direccion).medida_posicion(125,150,p0+5*ey)
         self.boton3 = boton(self.wn, "GENERAR PDF", "grey", nuevo_informe).medida_posicion(240,30,p0+6*ey)
         
+        self.wn.mainloop()
+
+    def conexion_whatsapp(self):
+        self.vnt = ventana_base("350x330", "EMITIR ALERTA VEHICULAR")
+        self.wn = self.vnt.return_tk()
+        self.titulo1 = titulo(self.wn, 20, 10, "ENVÍO MENSAJE WHATSAPP").medida(175,30)
+        ey=40 #espacio en el eje y (vertical)
+        p0=50 #espacio en el eje y del primer elemento
+        self.titulo2 = titulo(self.wn, 45, p0, "CONDUCTOR").medida(260,30)
+        Chofer = tk.StringVar
+        nombres=[]
+        lista_conductores=fng.doc().operacion("L")
+        for conductor in lista_conductores:
+            nombres.append(conductor[3])
+        self.lista1 = Combobox(self.wn, width=20, height=40, textvariable=Chofer, values = nombres, state="readonly")
+        self.lista1.place(x=75, y=90)
+        self.titulo2 = titulo(self.wn, 45, p0+2*ey, "NÚMERO DE CELULAR").medida(260,30)
+        Variable = tk.StringVar()
+        self.lista2 = Combobox(self.wn, width=20, height=40, textvariable=Variable, values=["+51983534195","+51998919468","+51940542226","+51957116779"], state="readonly")
+        self.lista2.place(x=75, y=170)
+        self.titulo3 = titulo(self.wn, 45, p0+4*ey, "MENSAJE").medida(260,30)
+        Mensaje = tk.StringVar()
+        self.lista3 = Combobox(self.wn, width=20, height=40, textvariable=Mensaje, values=["INICIAR SUS OPERACIONES, POR FAVOR","UNIDAD DETENIDA, POR FAVOR RESPORTARSE CON EL OPERARIO", "ALERTA, DETENGA SU RECORRIDO"], state="readonly")
+        self.lista3.place(x=75, y=250)
+        self.boton1 = boton(self.wn, "ENVIAR", "grey", lambda: msg.mensaje().conexion(numero=Variable.get(), info=Mensaje.get())).medida_posicion(100,120,p0+6*ey)
+
         self.wn.mainloop()
     
     def ventana_fondo(self, ventana):
