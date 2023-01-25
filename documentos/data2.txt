@@ -6,7 +6,7 @@ numero_salidas,1
 tipo_mapa,con_capas
 nombre_puerto_arduino,COM16
 direccion_informe,C:\Users\USUARIO\Saved Games
-vehiculos_informe,Todos
+vehiculos_informe,1,2,3,2,3
 operaciones_iniciadas,no
 vh_totales,25
 vh_fuera_servicio,3

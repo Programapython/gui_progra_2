@@ -121,7 +121,7 @@ class ventana(ventana_base):
         menu1.separador(1)
         menu1.titulos2(1,'Salir', self.wn.destroy)
         #----------------------------------------------------------------------------
-        menu1.titulos2(2,'Generar informe', lambda: fng.crear_doc())
+        menu1.titulos2(2,'Generar informe', lambda: vnt().generar_pdf())
         menu1.titulos2(2,'Generar mapa', lambda: mapa.generar_mapa())
         #----------------------------------------------------------------------------
         menu1.titulos2(3,'Modificar apariencia',lambda: vnt().ventana_fondo(self.wn))

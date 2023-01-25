@@ -328,7 +328,7 @@ class vnt():
         def nuevo_informe():
             fng.cambiar_doc2("direccion_informes", self.carpeta.get())
             fng.cambiar_doc2("vehiculos_informe", self.seleccion.get())
-            fng.crear_doc()
+            fng.crear_doc(self.fecha.get(), self.seleccion.get())
             messagebox.showinfo(title="ARCHIVO CREADO", 
                                 message="El archivo fue creado con exito, revise la carpeta seleccionada")
             self.wn.destroy()
@@ -336,6 +336,7 @@ class vnt():
         self.vnt = ventana_base("300x330", "GENERAR REPORTE")
         self.carpeta=tk.StringVar(value=fng.buscar_doc2("direccion_informe"))
         self.seleccion=tk.StringVar(value=fng.buscar_doc2("vehiculos_informe"))
+        self.fecha=tk.StringVar()
         
         self.wn = self.vnt.return_tk()
         self.titulo1 = titulo(self.wn, 10, 10, "GENERAR PDF").medida(100,30)
@@ -345,7 +346,7 @@ class vnt():
         self.cuadro1 = cuadro_editor(self.wn, 25, p0+ey, 120, 30, self.seleccion)
         self.boton1 = boton(self.wn, "TODOS", "grey", lambda: self.seleccion.set("Todos")).medida_posicion(125,150,p0+ey)
         self.titulo2 = titulo(self.wn, 20, p0+2*ey, "FECHA").medida(260,30)
-        self.cuadro2 = cuadro_editor(self.wn, 25, p0+3*ey, 250, 30)
+        self.cuadro2 = cuadro_editor(self.wn, 25, p0+3*ey, 250, 30, self.fecha)
         self.titulo3 = titulo(self.wn, 20, p0+4*ey, "CARPETA").medida(260,30)
         self.cuadro3 = cuadro_editor(self.wn, 25, p0+5*ey, 120, 30,self.carpeta)
         self.boton2 = boton(self.wn, "CAMBIAR", "grey",cambiar_direccion).medida_posicion(125,150,p0+5*ey)
